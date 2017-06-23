@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<TestSuiteList>
+
+<!-- 	<TestSuite>
+		<Name>TestSuite.HighPrivilege</Name>
+		<TestCase loopCount="1" terminateIfFail="false">
+			<Name>Flow.HighPrivilege</Name>
+		</TestCase>
+	</TestSuite>
+	<TestSuite label="LongRun">
+		<Name>TestSuite.LR</Name>
+		<TestCase loopCount="1" terminateIfFail="false">
+			<Name>Flowlist.LR</Name>
+		</TestCase>  
+	</TestSuite>
+	<TestSuite>
+		<Name>TestSuite.Restart</Name>
+		<TestCase loopCount="1" terminateIfFail="false">
+			<Name>Flow.Restart</Name>
+		</TestCase>
+	</TestSuite> -->
+	<TestSuite label="START">
+		<Name>TestSuite.SetTimeAuto</Name>	
+		<TestCase>
+			<Name>Flow.SetTimeAuto</Name>
+		</TestCase>
+	</TestSuite>
+
+</TestSuiteList>		

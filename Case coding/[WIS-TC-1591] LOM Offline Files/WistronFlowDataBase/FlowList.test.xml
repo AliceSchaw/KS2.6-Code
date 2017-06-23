@@ -1,0 +1,929 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<FlowList>
+	<Flow>
+		<Name>Flow.HighPrivilege</Name>
+		<Sequence>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity> 
+
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Click UAC" terminateIfFail="false" timeout="5" defer="1">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderHighPrivilegeProgram</MethodName>
+				<Param>
+					<In>0</In>
+					<Out target="Dictionary">ProviderHighPrivilegeProgram</Out>
+				</Param>
+				<Param>
+					<In>Winsta0\WinLogon</In>
+				</Param>
+				<Param>
+					<In>-1</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAPlan/Plan.ClickUAC.xml -log ./Log/ClickUACLog1.txt -report ./Report/ClickUACLog1.xml</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron</In>
+				</Param>
+				<Param>
+					<In>1</In>
+				</Param>
+			</Activity> 
+
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="Launch test runner" terminateIfFail="true" timeout="-1">
+				<StartupInfo>
+					<FileName executionMode="Sync" executionLevel="RequireAdministrator">C:\Wistron\TestRunner.exe</FileName>
+					<CommandLine>-plan ./WistronAPlan/ReplacePQPlan.xml -label LongRun -report ./Report/Report.LOM_LAN_Integration_Tests_Power_Cycles_Verification.xml -log ./Log/Log.LOM_LAN_Integration_Tests_Power_Cycles_Verification.txt</CommandLine>
+				</StartupInfo>
+			</Activity>
+		</Sequence>
+	</Flow>
+	<Flow>
+		<Name>Flowlist.LR</Name> 	
+		<Sequence>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动操作" terminateIfFail="False" timeout="-1" defer="1">
+				<Caption>手动操作</Caption>			
+				<Message>						
+_______________________________________________________________________
+
+注意：
+1，确保在英文状态下运行。
+2，比对每一个自动打开的项目，有异常的项目请手动记录下来！
+3,X64操作系统
+_______________________________________________________________________
+				</Message>
+			</Activity>			
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Min_Windows.keys：Win+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Min_Windows.keys：Win+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Min_Windows.keys：Win+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>
+
+			<Activity handler="AutoFlow.FileOperation.ActivityGetFileList" terminateIfFail="true" description="Get file list in specific dir and output to filelist.xml.">
+				<FindFilePath source="RawData">C:\Wistron\tool</FindFilePath>
+				<Recursive>true</Recursive>
+				<ListHiddenFile>false</ListHiddenFile>
+				<Output target="XmlFile">c:\Wistron\Data\filelist.xml | //Root/File</Output>
+			</Activity>
+
+			<Activity handler="AutoFlow.Verifier.ActivityCheckData" description="Check if the mark file exists in filelist.xml." terminateIfFail="false">
+				<Source source="XmlFile">c:\Wistron\Data\filelist.xml | //Root/File</Source>
+				<Criteria source="RawData" compareOption="String" passCriteria="Loose">C:\Wistron\tool\LRsettingMark.txt</Criteria>
+			</Activity>
+
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="if previous activity result is success, goto label A, else if fail, goto label B, otherwise goto Exit.">
+				<Condition previousActivityResult="Success">set</Condition>
+				<Condition previousActivityResult="Fail">notset</Condition>
+				<Condition previousActivityResult="Unknown">Exit</Condition>
+			</Activity>
+
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" label="notset" description="LR_Setting.launch LRSetting.bat" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="RequireAdministrator">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir>
+					<CommandLine>/c "C:\Wistron\DataSource\LRSetting.bat"</CommandLine>
+				</StartupInfo>
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="LRSetting.launch powercfg.cpl" maxRetryCount="15" retryInterval="1">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="AsInvoker">powercfg.cpl</FileName>
+					<WorkingDir/>
+					<CommandLine/>
+				</StartupInfo>
+			</Activity>
+
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click Maximize button(Failure can be ignored)" maxRetryCount="1" terminateIfFail="false">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" xAxisRatio="0.5" yAxisRatio="0.5"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>					
+					</ParentWindow>
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Maximize</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click Require a password on wakeup"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>ControlPanelLink</ClassName>
+						<ControlType>Hyperlink</ControlType>
+						<Name>Choose what the power buttons do</Name>
+					</DescendantWindow>					
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click change settings that are currently unavailable" maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" xAxisRatio="0.5" yAxisRatio="0.5"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>					
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Hyperlink</ControlType>
+						<Name>Change settings that are currently unavailable</Name>	
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click require a password" maxRetryCount="3" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" xAxisRatio="0.2" yAxisRatio="0.5"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>CCRadioButton</ClassName>
+						<ControlType>RadioButton</ControlType>
+						<Name>Require a password (recommended)</Name>						
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LRSetting.Click Down key" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">DOWN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LRSetting.Click Down key" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">DOWN</Key>
+			</Activity>
+
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click When I press the power button: (On battery)"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Combobox</ClassName>
+						<ControlType>ComboBox</ControlType>
+						<Name>When I press the power button: (On battery)</Name>
+					</DescendantWindow>					
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{DOWN}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click Save Changes(Failure can be ignored)" defer="1" maxRetryCount="50" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>						
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>CCPushButton</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Save changes</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.Close PowerOptions Windows" maxRetryCount="10" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Close</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LRSetting.set LR_Setting.txt" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+				<StartupInfo>
+					<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir>
+					<CommandLine>/c "echo Complete LongRun setting >C:\Wistron\tool\LRsettingMark.txt"</CommandLine>
+				</StartupInfo>
+			</Activity>	
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="set" timeout="-1" description="LR set mark">
+				<Text/>
+			</Activity>
+
+		</Sequence>
+	</Flow>
+	<Flow>
+		<Name>Flow.Environment-Install-Reboot</Name>
+		<Sequence>
+
+			<Activity handler="AutoFlow.ShellScript.ActivityPowerShell" description="Get UserName" label="installed">
+				<Script option="CodeSnippet">
+	             [string] $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name.split('\')[1]
+	             return $username
+				</Script>       
+				<Ouput target="FlatFile">C:\wistron\datasource\UserAccountsName.txt</Ouput>       
+			</Activity>	
+						<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入ControlPanel" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Windows\system32\control.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中synccenter">
+				<Text>Sync Center</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中synccenter">
+				<Text>{TAB}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中synccenter">
+				<Text>{ENTER}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Sync Center"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>ControlPanelLink</ClassName>
+						<ControlType>Hyperlink</ControlType>
+						<Name>Manage offline files</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click enable offline files"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Offline Files</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Enable offline files</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click enable offline files"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Offline Files</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>OK</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Auto launcher program after reboot3" defer="1">
+				<AssemblyFullPathName>C:\wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In>
+					</In>
+				</Param>			
+				<Param>
+					<In source="FlatFile">C:\wistron\datasource\UserAccountsName.txt</In>
+				</Param>
+				<Param>
+					<In>
+					</In>
+				</Param>
+				<Param>
+					<In>C:\wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label reboot -report ./Report/Report.LOM_Offline_Files.xml -log ./Log/Log.LOM_Offline_Files.txt</In>
+				</Param>
+				<Param>
+					<In>C:\wistron\</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>true</In>
+				</Param>
+				<Param>
+					<In>LocalSystem</In>
+				</Param>
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="2-Let system reboot" defer="1" maxRetryCount="12" retryInterval="3">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderReboot</MethodName>
+			</Activity>	
+		</Sequence>
+	</Flow>
+
+	<Flow>
+		<Name>Flow.LOM_Offline_Files</Name>
+		<Sequence>
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>				
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="server" terminateIfFail="false" defer="1">
+				<Text>\\172.16.0.2\test files\1.各种格式~</Text>
+			</Activity>	
+					<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">UP</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click 1M.txt"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Right" clickCount="1"/>
+				<WindowSpecification>
+					
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>1.各种格式</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>ShellTabWindowClass</ClassName>
+						<ControlType>Pane</ControlType>
+						<Name>1.各种格式</Name>
+					</DescendantWindow>
+					<DescendantWindow>
+						<ClassName>UIItem</ClassName>
+						<ControlType>ListItem</ControlType>
+						<Name>1M.txt</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+						<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Always available offline"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>1.各种格式</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>UIItem</ClassName>
+						<ControlType>ListItem</ControlType>
+						<Name>1M.txt</Name>
+					</DescendantWindow>	
+					<DescendantWindow>
+						<ControlType>Menu</ControlType>
+						<Name>Always available offline</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="if previous activity result is success, goto label A, else if fail, goto label B, otherwise goto Exit.">
+				<Condition previousActivityResult="Success">Clicktxt</Condition>
+				<Condition previousActivityResult="Fail">notClicktxt</Condition>
+				<Condition previousActivityResult="Unknown">notClicktxt</Condition>
+			</Activity>
+					<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Always available offline"  label="notClicktxt" maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>1.各种格式</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>UIItem</ClassName>
+						<ControlType>ListItem</ControlType>
+						<Name>1M</Name>
+					</DescendantWindow>	
+					<DescendantWindow>
+						<ControlType>Menu</ControlType>
+						<Name>Always available offline</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动操作" terminateIfFail="False" timeout="-1" defer="1">
+				<Caption>Step5.手动操作</Caption>			
+				<Message>						
+在菜单中选择Always available offline.
+确认文件左下角出现绿色同步图标。
+完成后点击YES。
+				</Message>
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入ControlPanel" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Windows\system32\control.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中synccenter">
+				<Text>Sync Center</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中synccenter">
+				<Text>{TAB}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中synccenter">
+				<Text>{ENTER}</Text>
+			</Activity>
+					<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Sync Center"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>ControlPanelLink</ClassName>
+						<ControlType>Hyperlink</ControlType>
+						<Name>Manage offline files</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click View your offline files"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Offline Files</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>View your offline files</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动操作" terminateIfFail="False" timeout="-1" defer="1">
+				<Caption>Step10.提示</Caption>			
+				<Message>						
+确认离线文件正确显示在Offline Files Folder\Computers\172.16.0.2\test files\1.各种格式。
+				</Message>
+			</Activity>		
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>				
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="server" terminateIfFail="false" defer="1">
+				<Text>\\172.16.0.2\test files\1.各种格式~</Text>
+			</Activity>				
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Easy access"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>1.各种格式</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>UIRibbonCommandBarDock</ClassName>
+						<ControlType>Pane</ControlType>
+						<Name>UIRibbonDockTop</Name>
+					</DescendantWindow>
+					<DescendantWindow>
+						<ControlType>SplitButton</ControlType>
+						<Name>Easy access</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="if previous activity result is success, goto label A, else if fail, goto label B, otherwise goto Exit.">
+				<Condition previousActivityResult="Success">homeexpand</Condition>
+				<Condition previousActivityResult="Fail">nothomeexpand</Condition>
+				<Condition previousActivityResult="Unknown">nothomeexpand</Condition>
+			</Activity>
+				<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" label="nothomeexpand" description="Click Easy access"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>1.各种格式</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>UIRibbonCommandBarDock</ClassName>
+						<ControlType>Pane</ControlType>
+						<Name>UIRibbonDockTop</Name>
+					</DescendantWindow>
+					<DescendantWindow>
+						<ControlType>TabItem</ControlType>
+						<Name>Home</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>		
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Easy access"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>1.各种格式</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>UIRibbonCommandBarDock</ClassName>
+						<ControlType>Pane</ControlType>
+						<Name>UIRibbonDockTop</Name>
+					</DescendantWindow>
+					<DescendantWindow>
+						<ControlType>SplitButton</ControlType>
+						<Name>Easy access</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>			
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="click work offline" terminateIfFail="false" defer="1" label="homeexpand">
+				<Text>{DOWN 5}~</Text>
+			</Activity>	
+					<Activity handler="AutoFlow.ActivityManualTest" description="手动操作" terminateIfFail="False" timeout="-1" defer="1">
+				<Caption>Step13.手动操作</Caption>			
+				<Message>						
+对文件进行一些改动。
+完成后点击YES。
+				</Message>
+			</Activity>		
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Easy access"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>1.各种格式</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>UIRibbonCommandBarDock</ClassName>
+						<ControlType>Pane</ControlType>
+						<Name>UIRibbonDockTop</Name>
+					</DescendantWindow>
+					<DescendantWindow>
+						<ControlType>SplitButton</ControlType>
+						<Name>Easy access</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="click work offline" terminateIfFail="false" defer="1">
+				<Text>{DOWN 5}~</Text>
+			</Activity>				
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入ControlPanel" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Windows\system32\control.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中synccenter">
+				<Text>Sync Center</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中synccenter">
+				<Text>{TAB}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中synccenter">
+				<Text>{ENTER}</Text>
+			</Activity>			
+					<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Sync Center"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>AJOSplitButton</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Sync All</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Manage offline files"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>ControlPanelLink</ClassName>
+						<ControlType>Hyperlink</ControlType>
+						<Name>Manage offline files</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>		
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="ctrl+tab" terminateIfFail="true">
+				<Key action="Down">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="ctrl+tab" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">TAB</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="ctrl+tab" terminateIfFail="true">
+				<Key action="Up">CONTROL</Key>
+			</Activity>
+				<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click enable offline files"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Offline Files</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Change limits</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Max Space">
+				<Text>{RIGHT 200}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Max Space">
+				<Text>{TAB}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Max Space">
+				<Text>{RIGHT 200}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Max Space">
+				<Text>{TAB}{ENTER}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Delete temporary files"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Offline Files</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Delete temporary files</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Delete temporary files" defer="5" maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Offline Files</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>OK</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>			
+			
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Manage offline files"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>ControlPanelLink</ClassName>
+						<ControlType>Hyperlink</ControlType>
+						<Name>Manage offline files</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="ctrl+tab" terminateIfFail="true">
+				<Key action="Down">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Max Space">
+				<Text>{TAB 2}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="ctrl+tab" terminateIfFail="true">
+				<Key action="Up">CONTROL</Key>
+			</Activity>
+						<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Delete temporary files"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Offline Files</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Encrypt</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Delete temporary files" defer="5" maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Offline Files</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>OK</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Manage offline files"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>ControlPanelLink</ClassName>
+						<ControlType>Hyperlink</ControlType>
+						<Name>Manage offline files</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="ctrl+tab" terminateIfFail="true">
+				<Key action="Down">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Max Space">
+				<Text>{TAB 3}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="ctrl+tab" terminateIfFail="true">
+				<Key action="Up">CONTROL</Key>
+			</Activity>
+					<Activity handler="AutoFlow.ActivityManualTest" description="手动操作" terminateIfFail="False" timeout="-1" defer="1">
+				<Caption>Step26.提示</Caption>			
+				<Message>						
+确认检查网络连接速度的间隔为五分钟。
+				</Message>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Click Delete temporary files" defer="5" maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Offline Files</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>OK</Name>
+					</DescendantWindow>	
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Auto launcher program after shutdown" defer="1">
+				<AssemblyFullPathName>C:\wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In>
+					</In>
+				</Param>			
+				<Param>
+					<In source="FlatFile">C:\wistron\datasource\UserAccountsName.txt</In>
+				</Param>
+				<Param>
+					<In>
+					</In>
+				</Param>
+				<Param>
+					<In>C:\wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label shutdown -report ./Report/Report.LOM_Offline_Files.xml -log ./Log/Log.LOM_Offline_Files.txt</In>
+				</Param>
+				<Param>
+					<In>C:\wistron\</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>true</In>
+				</Param>
+				<Param>
+					<In>LocalSystem</In>
+				</Param>
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" terminateIfFail="true" timeout="30" description="step11-shutdown">
+				<AssemblyFullPathName>.\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderShutdown</MethodName>
+				<Param>
+					<In>None</In>
+				</Param>
+				<Param>
+					<In>60</In>
+				</Param>
+			</Activity>
+		</Sequence>
+	</Flow>
+	<Flow>
+		<Name>Flow.LOM_Offline_Files_Shutdown</Name>
+		<Sequence>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity> 	
+			
+			<Activity handler="AutoFlow.ActivityManualTest" description="step11-check results" timeout="-1" defer="10" terminateIfFail="true">
+				<Caption>Step27.提示</Caption>
+				<Message>
+测试结束。
+				</Message>
+			</Activity>
+		</Sequence>
+	</Flow>
+</FlowList>

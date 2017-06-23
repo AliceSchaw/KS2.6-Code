@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FlowList>
+	<Flow>
+		<OS>Win10</OS>
+		<Launguage>EN</Launguage>
+		<Version>V0.1</Version>
+		<Provider>Alice H Xiao</Provider>
+		<Date>20161118</Date>
+		<Name>Flow.ControlPanelLoop</Name>
+		<Sequence>
+			<Activity handler="AutoFlow.ShellScript.ActivityPowerShell" description="Get UserName" defer="1">
+				<Script option="CodeSnippet">
+	             [string] $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name.split('\')[1]
+	             return $username
+				</Script>       
+				<Ouput target="FlatFile">C:\Wistron\DataSource\UserAccountsName.txt</Ouput>       
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>	
+ 			<Activity handler="AutoFlow.ActivityVariable" description="Set Loopnum" terminateIfFail="true">
+					 <Variable key="loopnum" source="FlatFile" isOverWrite="true">C:\Wistron\DataSource\loop.txt</Variable>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+X" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+X" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">X</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+X" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="open Control Panel" terminateIfFail="true">
+				<Key action="DownUp">P</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" defer="2" description="Close Control Panel" maxRetryCount="2" terminateIfFail="false" retryInterval="2">
+			<Click clickCount="1" clickInterval="0.2" xAxisRatio="0.5" yAxisRatio="0.5" autoMirror="false" clickButton="Left" clickMechanism="MouseEvent" downUpInterval="0" buttonAction="DownUp"/>
+							<WindowSpecification>
+								<ParentWindow>
+									<ClassName>CabinetWClass</ClassName>
+									<ControlType>Window</ControlType>
+									<Name>Control Panel</Name>
+								</ParentWindow>
+								<DescendantWindow>
+									<ControlType>Button</ControlType>
+									<Name>Close</Name>
+								</DescendantWindow>
+							</WindowSpecification>
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirror="false" filterByYAxisIndexFirst="true"/>
+			 </Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="Close success">
+				<Condition previousActivityResult="Success">closesuccess</Condition>
+				<Condition previousActivityResult="Fail">closefail</Condition>
+				<Condition previousActivityResult="Unknown">closefail</Condition>
+			</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" defer="1" label="closefail" description="Show loopnum"  timeout="-1">
+				<Caption>TestFail</Caption>
+				<Message>步骤失败，循环次数$ez[loopnum]</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+X" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+X" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">X</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+X" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="open CMD" terminateIfFail="true">
+				<Key action="DownUp">A</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="close TestRunner">
+						<Text>Taskkill -f -im TestRunner.exe -im CMD.exe~</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="finish" terminateIfFail="false" defer="1">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In/>
+				</Param>
+				<Param>
+					<In source="FlatFile">C:\wistron\DataSource\UserAccountsName.txt</In>
+				</Param>
+				<Param>
+					<In/>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label finish -report ./Report/test.xml -log ./Report/Log/Test.txt</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>true</In>
+				</Param>
+				<Param>
+					<In>LocalSystem</In>
+				</Param>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityEvaluation" defere="1" label="closesuccess">
+						<Expression>$ez[loopnum] + 1</Expression>
+						<Result target="FlatFile" isOverWrite="true">C:\Wistron\DataSource\loop.txt</Result>
+			</Activity> 
+		</Sequence>			
+	</Flow>
+	<Flow>
+		<Name>Flow.ControlPanelLoop2</Name>
+		<Sequence>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入Flow1" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="RequireAdministrator">C:\Wistron\TestRunner.exe</FileName>
+				<WorkingDir>.</WorkingDir>
+				<CommandLine>-plan ./WistronAPlan/ReplacePQPlan.xml -label loop -report ./Report/test.xml -log ./Report/Log/Test.txt</CommandLine>
+			</StartupInfo>
+			</Activity>
+		</Sequence>			
+	</Flow>
+	<Flow>
+		<Name>Flow.ControlPanelLoop3</Name>
+		<Sequence>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="close TestRunner">
+						<Text>{DOWN}{UP}</Text>
+			</Activity>			
+		</Sequence>
+	</Flow>
+</FlowList>

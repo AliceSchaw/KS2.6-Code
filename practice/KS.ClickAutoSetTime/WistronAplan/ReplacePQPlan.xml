@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlanSuiteList>
+<!-- 	<TestSuite>    
+		<Name>TestSuite.HighPrivilege</Name>
+	</TestSuite>
+	<TestSuite label="LongRun">    
+		<Name>TestSuite.LR</Name>
+	</TestSuite>
+	<TestSuite>    
+		<Name>TestSuite.Restart</Name>
+	</TestSuite> -->
+	<TestSuite label="START">
+		<Name>TestSuite.SetTimeAuto</Name>
+	</TestSuite>
+</PlanSuiteList>

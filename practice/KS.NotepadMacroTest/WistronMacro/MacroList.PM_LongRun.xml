@@ -1,0 +1,1898 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MacroList>
+	<Version>V0.1</Version>
+	<Provider>Channing</Provider>
+	<OS>Win10 x64/x86</OS>
+	<Language>EN</Language>-
+	<Date>20150904</Date>
+
+
+	<!--安装程序编辑器Notepad-->
+	<Macro name="Setup_Install_Notepad">
+	
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Setup.keys：Win+M" terminateIfFail="true">
+			<Key action="Down">LWIN</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Setup.keys：Win+M" terminateIfFail="true">
+			<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Setup.keys：Win+M" terminateIfFail="true">
+			<Key action="Up">LWIN</Key>
+		</Activity>
+		
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="Setup.launch Notepad.exe" timeout="-1" terminateIfFail="true">
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Wistron\DataSource\Tool\Notepad.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Setup.Click OK button" maxRetryCount="200" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" />
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Installer Language</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>OK</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Setup.Click Next button" maxRetryCount="200" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" />
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Notepad++ v6.8.6 Setup</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Next ></Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Setup.Click I Agree button" maxRetryCount="200" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" />
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Notepad++ v6.8.6 Setup </Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>I Agree</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Setup.Click Next button" maxRetryCount="200" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" />
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Notepad++ v6.8.6 Setup </Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Next ></Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Setup.Click Next button" maxRetryCount="200" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" />
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Notepad++ v6.8.6 Setup </Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Next ></Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Setup.Click Create Shortcut on Desktop button" maxRetryCount="200" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" />
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Notepad++ v6.8.6 Setup</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>CheckBox</ControlType>
+						<Name>Create Shortcut on Desktop</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Setup.Click Install button" maxRetryCount="200" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" />
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Notepad++ v6.8.6 Setup</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Install</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Setup.Click Not Run Notepad++ v6.8.6" maxRetryCount="600" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" />
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Notepad++ v6.8.6 Setup </Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>CheckBox</ControlType>
+						<Name>Run Notepad++ v6.8.6</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>	
+
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Setup.Click Finish button" maxRetryCount="600" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" />
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Notepad++ v6.8.6 Setup </Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Finish</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>	
+	</Macro>
+	
+	<Macro name="Connect_shared_server">
+	
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Connect_shared_server.keys：Win+M" terminateIfFail="true">
+			<Key action="Down">LWIN</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Connect_shared_server.keys：Win+M" terminateIfFail="true">
+			<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Connect_shared_server.keys：Win+M" terminateIfFail="true">
+			<Key action="Up">LWIN</Key>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Manual_Repair_network_error" description="Connect_shared_server.Null Operation" terminateIfFail="false">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>			
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Connect_shared_server.keys：Win+R" terminateIfFail="true">
+			<Key action="Down">LWIN</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Connect_shared_server.keys：Win+R" terminateIfFail="true">
+			<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Connect_shared_server.keys：Win+R" terminateIfFail="true">
+			<Key action="Up">LWIN</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping"  description="Connect_shared_server.type IP 172.17.1.2" terminateIfFail="false" defer="1">
+			<Text>\\172.17.1.2~</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" label="Fail_Network_Error" description="Connect_shared_server.Click Windows Security windows" defer="1" terminateIfFail="false" maxRetryCount="1" retryInterval="1">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>CabinetWClass</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>File Explorer</Name>
+				</ParentWindow>
+				<DescendantWindow>
+					<ClassName>Element</ClassName>
+					<ControlType>Text</ControlType>
+					<Name>The user name or password is incorrect.</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="Connect_shared_server.If goto" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Windows_Security_windows</Condition>
+			<Condition previousActivityResult="Fail">Fail_Windows_Security_windows</Condition>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" label="Fail_Windows_Security_windows" description="Connect_shared_server.Click UIRibbonDockTop" defer="1" terminateIfFail="false" maxRetryCount="1" retryInterval="1">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>CabinetWClass</ClassName>
+					<ControlType>Window</ControlType>
+				</ParentWindow>
+				<DescendantWindow>
+					<ClassName>UIRibbonCommandBarDock</ClassName>
+					<ControlType>Pane</ControlType>
+					<Name>UIRibbonDockTop</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="Connect_shared_server.If goto" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Previous_Locations</Condition>
+			<Condition previousActivityResult="Fail">Fail_Previous_Locations</Condition>
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" label="Fail_Previous_Locations" description="Connect_shared_server.Click Previous Locations button" defer="1" terminateIfFail="false" maxRetryCount="1" retryInterval="1">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>#32770</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>Network Error</Name>
+				</ParentWindow>
+			</WindowSpecification>
+		</Activity>		
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="Connect_shared_server.If goto" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Network_Error</Condition>
+			<Condition previousActivityResult="Fail">Fail_Network_Error</Condition>
+		</Activity>		
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" label="Pass_Network_Error" description="Connect_shared_server.Click Cancel button" defer="1" terminateIfFail="false" maxRetryCount="30" retryInterval="1">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>#32770</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>Network Error</Name>
+				</ParentWindow>
+				<DescendantWindow>
+					<ClassName>CCPushButton</ClassName>
+					<ControlType>Button</ControlType>
+					<Name>Cancel</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>			
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Connect_shared_server.Click Close button" defer="1" terminateIfFail="false" maxRetryCount="30" retryInterval="1">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>#32770</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>Run</Name>
+				</ParentWindow>
+				<DescendantWindow>
+					<ControlType>Button</ControlType>
+					<Name>Close</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>			
+		<Activity handler="AutoFlow.ActivityManualTest" description="Connect_shared_server.Open 172.17.1.2 Fail" terminateIfFail="true" timeout="-1" defer="1">
+			<Caption>Connect_shared_server.Open 172.17.1.2 Fail</Caption>
+			<Message>Test Procedure:
+1.Open the 172.17.1.2 server failed, please clear the fault.  
+Expected Result:
+1.Can normally open the server, network speed as expected.
+prompt:
+1.Click Yes to begin implementation next step.
+2.Normally click Yes; exceptions click No.
+			</Message>
+		</Activity>		
+		<Activity handler="AutoFlow.FlowControl.ActivityGoto" description="Connect_shared_server.Goto activity" defer="1">
+			<TargetLabel>Manual_Repair_network_error</TargetLabel>
+		</Activity>	
+
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Pass_Windows_Security_windows" description="Connect_shared_server.type User" terminateIfFail="false" defer="1">
+			<Text>User1{TAB}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="Connect_shared_server.type password" terminateIfFail="false" defer="1">
+			<Text>Us111111{TAB}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Connect_shared_server.check remember my credentials" terminateIfFail="true">
+			<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">SPACE</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="Connect_shared_server.Click OK Button" terminateIfFail="false" defer="1">
+			<Text>{TAB}~</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" label="Pass_Previous_Locations" description="Connect_shared_server.Click Close button" defer="1" terminateIfFail="false" maxRetryCount="60" retryInterval="1">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>CabinetWClass</ClassName>
+					<ControlType>Window</ControlType>
+				</ParentWindow>
+				<DescendantWindow>
+					<ControlType>Button</ControlType>
+					<Name>Close</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>	
+	</Macro>
+
+	<Macro name="Setup_Install_LR241">
+	
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Setup.keys：Win+M" terminateIfFail="true">
+			<Key action="Down">LWIN</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Setup.keys：Win+M" terminateIfFail="true">
+			<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Setup.keys：Win+M" terminateIfFail="true">
+			<Key action="Up">LWIN</Key>
+		</Activity>	
+
+		<Activity handler="AutoFlow.Verifier.ActivityCheckInstalledApp" description="LR241_Setup.Check LR241 was installed.">
+			<PersistFileName>InstalledAppList.csv</PersistFileName>
+			<Criteria>
+				<IncludeApplication>
+					<DisplayName>Longrun</DisplayName>
+					<DisplayVersion>2.41</DisplayVersion>
+					<Publisher>Wistron</Publisher>
+				</IncludeApplication>
+			</Criteria>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_Setup.If goto(Failure can be ignored)" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_LR241_Installed</Condition>
+			<Condition previousActivityResult="Fail">Fial_LR241_Installed</Condition>
+		</Activity>
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" label="Fial_LR241_Installed" defer="1" description="LR241_Setup.launch LR241 Setup.exe" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Wistron\DataSource\Tool\LR241\setup.exe</FileName>
+				<WorkingDir/>
+				<CommandLine/>
+			</StartupInfo>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Setup.Click Next Button" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>InstallShield_Win</ClassName>
+						<ControlType>Pane</ControlType>
+						<Name>Longrun - InstallShield Wizard</Name>						
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+					</DescendantWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Next ></Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Setup.Click Finish Button" maxRetryCount="60" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>InstallShield_Win</ClassName>
+						<ControlType>Pane</ControlType>
+						<Name>Longrun - InstallShield Wizard</Name>						
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+					</DescendantWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Finish</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_Setup.kill longrun.exe" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>%windir%\system32\</WorkingDir>
+				<CommandLine>/c "taskkill /f /im longrun.exe"</CommandLine>
+			</StartupInfo>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Pass_LR241_Installed" description="LR241_Setup.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>
+	</Macro>
+	
+	<Macro name="LR241_S3">
+	
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S3.del old Log File" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>%windir%\system32\</WorkingDir>
+				<CommandLine>/c "del /q/a/f/s /f C:\Longrun\*.Log"</CommandLine>
+			</StartupInfo>
+		</Activity>
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S3.del old Log File" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>%windir%\system32\</WorkingDir>
+				<CommandLine>/c "del /q/a/f/s /f C:\Longrun\Log\S3\*.*"</CommandLine>
+			</StartupInfo>
+		</Activity>
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S3.md S3 Folder" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>%windir%\system32\</WorkingDir>
+				<CommandLine>/c "md C:\Longrun\Log\S3"</CommandLine>
+			</StartupInfo>
+		</Activity>			
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S3.launch longrun.exe" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Longrun\longrun.exe</FileName>
+				<WorkingDir/>
+				<CommandLine/>
+			</StartupInfo>
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S3.Click S3 Button" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ControlType>TabItem</ControlType>
+						<Name>S3</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S3.Edit Repeat cycles" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Edit</ClassName>
+						<ControlType>Edit</ControlType>
+						<Name>Repeat cycles:</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S3.Clear Repeat cycles Data">
+			<Text>{BACKSPACE 50}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S3.Type 1000 times for Repeat cycles">
+			<Text>3</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S3.Edit OS time" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Edit</ClassName>
+						<ControlType>Edit</ControlType>
+						<Name>OS time:</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S3.Clear OS time Data">
+			<Text>{BACKSPACE 50}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S3.Type 20s for OS time">
+			<Text>20</Text>
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S3.Edit Full sleep time" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Edit</ClassName>
+						<ControlType>Edit</ControlType>
+						<Name>Full sleep time:</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S3.Clear Full sleep time Data">
+			<Text>{BACKSPACE 50}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S3.Type 30s for Full sleep time">
+			<Text>30</Text>
+		</Activity>			
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S3.Edit Pure sleep time" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Edit</ClassName>
+						<ControlType>Edit</ControlType>
+						<Name>Pure sleep time:</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S3.Clear Pure sleep time Data">
+			<Text>{BACKSPACE 50}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S3.Type 5s for Pure sleep time">
+			<Text>5</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S3.Click Pwrtest.exe" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>RadioButton</ControlType>
+						<Name>Pwrtest.exe</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.UIData.ActivityGetWindowCurrentValue" description="LR241_S3.Get Stop if devices check error Status" terminateIfFail="false" defer="1" maxRetryCount="10" retryInterval="1">			
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>#32770</ClassName>
+					<ControlType>Window</ControlType>
+				</ParentWindow>
+				<DescendantWindow>
+					<ClassName>Button</ClassName>
+					<ControlType>CheckBox</ControlType>
+					<Name>Stop if devices check error</Name>
+				</DescendantWindow>
+			</WindowSpecification>	
+			<Result target="Dictionary">Var_Stop_if_devices_check_error_S3</Result>
+			<Result target="FlatFile">C:\Wistron\DataSource\CheckedOut.txt</Result>
+		</Activity>
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" defer="1" description="LR241_S3.CheckData Stop if Check error?(Failure can be ignored)">
+			<Source source="Dictionary">Var_Stop_if_devices_check_error_S3</Source>
+			<Criteria source="RawData" passCriteria="Strick">Checked</Criteria>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_S3.if goto(Failure can be ignored)" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Stop_if_devices_check_error_S3</Condition>
+			<Condition previousActivityResult="Fail">Fail_Stop_if_devices_check_error_S3</Condition>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" label="Pass_Stop_if_devices_check_error_S3" description="LR241_S3.Click Stop if devices check error" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>CheckBox</ControlType>
+						<Name>Stop if devices check error</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" label="Fail_Stop_if_devices_check_error_S3" description="LR241_S3.Click Check Devices button" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<Automationld>1039</Automationld>
+						<ClassName>Button</ClassName>
+						<ControlType>CheckBox</ControlType>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S3.Type UP Key 1000 times">
+			<Text>{UP 100}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S3.Click Check Driver lists" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" xAxisRatio="0.067992" yAxisRatio="0.197333" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Device</Name>						
+					</DescendantWindow>	
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S3.Click Close button" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Close</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S3.Click Run button" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Run</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		
+		<Activity handler="AutoFlow.UIData.ActivityGetWindowText" label="Fail_Unknown_S3" description="LR241_S3.Get Window text(Failure can be ignored)" maxRetryCount="1" retryInterval="1">
+			<WindowSpecification>
+				<ParentWindow>
+					 <ClassName>#32770</ClassName>
+					<ControlType>Window</ControlType>
+				</ParentWindow>	
+			</WindowSpecification>
+			<Result target="FlatFile">C:\Wistron\DataSource\Temp\Var_Get_Windows_Text.txt</Result>
+		</Activity>
+	 	<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S3.launch Cut_info_for_S3_S4.bat" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">C:\Wistron\DataSource\Cut_info_for_S3_S4.bat</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+		</Activity>
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" defer="1" description="LR241_S3.Check Pass info.(Failure can be ignored)">
+			<Source source="FlatFile">C:\Wistron\DataSource\Temp\Var_Get_Windows_Text.txt</Source>
+			<Criteria source="RawData" passCriteria="Loose">PASS - test finished</Criteria>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_S3.If goto.(Failure can be ignored)" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Test_Finished_PASS_S3</Condition>      
+			<Condition previousActivityResult="Fail">Fail_Test_Finished_PASS_S3</Condition>       
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Fail_Test_Finished_PASS_S3" defer="1" description="LR241_S3.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>		
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" defer="1" description="LR241_S3.Check Unexpected info.(Failure can be ignored)">
+			<Source source="FlatFile">C:\Wistron\DataSource\Temp\Unexpected.txt</Source>
+			<Criteria source="RawData" passCriteria="Loose">Unexpected reboot during S3 test!</Criteria>
+		</Activity>			
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_S3.If goto.(Failure can be ignored)" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Unexpected_S3</Condition>      
+			<Condition previousActivityResult="Fail">Fail_Unexpected_S3</Condition>       
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Fail_Unexpected_S3" defer="1" description="LR241_S3.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>		
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" defer="1" description="LR241_S3.Check Unknown info.(Failure can be ignored)">
+			<Source source="FlatFile">C:\Wistron\DataSource\Temp\Unknown.txt</Source>
+			<Criteria source="RawData" passCriteria="Loose">Unknown interruption during S3 test!</Criteria>
+		</Activity>			
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_S3.If goto.(Failure can be ignored)" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Unknown_S3</Condition>      
+			<Condition previousActivityResult="Fail">Fail_Unknown_S3</Condition>       
+		</Activity>		
+
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Pass_Unknown_S3" defer="1" description="LR241_S3.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Pass_Unexpected_S3" defer="1" description="LR241_S3.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>			
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Pass_Test_Finished_PASS_S3" defer="1" description="LR241_S3.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>
+		
+		
+		
+		<Activity handler="AutoFlow.UIData.ActivityScreenCapture" executionMode="Async" mode="Begin" description="LR241_S3.Cut_Screen" defer="1">
+			<FileName interval="1" maxCaptureCount="5">C:\Longrun\Log\S3\</FileName>
+			<DesktopName></DesktopName>
+		</Activity>		
+		<Activity handler="AutoFlow.UIData.ActivityScreenCapture" defer="1" executionMode="Async" mode="End" description="LR241_S3.Cut_Screen">
+		</Activity>
+		
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S3.Move log file" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>C:\Longrun\</WorkingDir>
+				<CommandLine>/c "move /y *.log Log\S3"</CommandLine>
+			</StartupInfo>
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S3.Click Stop button" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Stop</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S3.Click Close button" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Close</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S3.Copy Log to Server" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">C:\Wistron\DataSource\Copy_Log.bat</FileName>
+				<WorkingDir/>
+				<CommandLine/>
+			</StartupInfo>
+		</Activity>
+
+	</Macro>
+	
+
+	<Macro name="LR241_S4">
+
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S4.del old Log File" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>%windir%\system32\</WorkingDir>
+				<CommandLine>/c "del /q/a/f/s /f C:\Longrun\Log\S4\*.*"</CommandLine>
+			</StartupInfo>
+		</Activity>
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S4.md S4 Folder" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>%windir%\system32\</WorkingDir>
+				<CommandLine>/c "md C:\Longrun\Log\S4"</CommandLine>
+			</StartupInfo>
+		</Activity>			
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S4.launch longrun.exe" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Longrun\longrun.exe</FileName>
+				<WorkingDir/>
+				<CommandLine/>
+			</StartupInfo>
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S4.Click S4 Button" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ControlType>TabItem</ControlType>
+						<Name>S4</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S4.Edit Repeat cycles" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Edit</ClassName>
+						<ControlType>Edit</ControlType>
+						<Name>Repeat cycles:</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S4.Clear Repeat cycles Data">
+			<Text>{BACKSPACE 50}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S4.Type 1000 times for Repeat cycles">
+			<Text>3</Text>
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S4.Edit OS time" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Edit</ClassName>
+						<ControlType>Edit</ControlType>
+						<Name>OS time:</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S4.Clear OS time Data">
+			<Text>{BACKSPACE 50}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S4.Type 20s for OS time">
+			<Text>20</Text>
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S4.Edit Full sleep time" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Edit</ClassName>
+						<ControlType>Edit</ControlType>
+						<Name>Full sleep time:</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S4.Clear Full sleep time Data">
+			<Text>{BACKSPACE 50}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S4.Type 60s for Full sleep time">
+			<Text>60</Text>
+		</Activity>			
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S4.Edit Pure sleep time" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Edit</ClassName>
+						<ControlType>Edit</ControlType>
+						<Name>Pure sleep time:</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S4.Clear Pure sleep time Data">
+			<Text>{BACKSPACE 50}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S4.Type 5s for Pure sleep time">
+			<Text>5</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S4.Click Pwrtest.exe" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>RadioButton</ControlType>
+						<Name>Pwrtest.exe</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+
+	
+		<Activity handler="AutoFlow.UIData.ActivityGetWindowCurrentValue" description="LR241_S4.Get Stop if devices check error Status" terminateIfFail="false" defer="1" maxRetryCount="10" retryInterval="1">			
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>#32770</ClassName>
+					<ControlType>Window</ControlType>
+				</ParentWindow>
+				<DescendantWindow>
+					<ClassName>Button</ClassName>
+					<ControlType>CheckBox</ControlType>
+					<Name>Stop if devices check error</Name>
+				</DescendantWindow>
+			</WindowSpecification>	
+			<Result target="Dictionary">Var_Stop_if_devices_check_error_S4</Result>			
+		</Activity>
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" defer="1" description="LR241_S4.CheckData Stop if Check error?(Failure can be ignored)">
+			<Source source="Dictionary">Var_Stop_if_devices_check_error_S4</Source>
+			<Criteria source="RawData" passCriteria="Strick">Checked</Criteria>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_S4.if goto(Failure can be ignored)" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Stop_if_devices_check_error_S4</Condition>
+			<Condition previousActivityResult="Fail">Fail_Stop_if_devices_check_error_S4</Condition>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" label="Pass_Stop_if_devices_check_error_S4" description="LR241_S4.Click Stop if devices check error" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>CheckBox</ControlType>
+						<Name>Stop if devices check error</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" label="Fail_Stop_if_devices_check_error_S4" description="LR241_S4.Click Check Devices button" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<Automationld>1039</Automationld>
+						<ClassName>Button</ClassName>
+						<ControlType>CheckBox</ControlType>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_S4.Type UP Key 1000 times">
+			<Text>{UP 100}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S4.Click Check Driver lists" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" xAxisRatio="0.067992" yAxisRatio="0.197333" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Device</Name>						
+					</DescendantWindow>	
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S4.Click Close button" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Close</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S4.Click Run button" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Run</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		
+		<Activity handler="AutoFlow.UIData.ActivityGetWindowText" label="Fail_Unknown_S4" description="LR241_S4.Get Window text(Failure can be ignored)" maxRetryCount="1" retryInterval="1">
+			<WindowSpecification>
+				<ParentWindow>
+					 <ClassName>#32770</ClassName>
+					<ControlType>Window</ControlType>
+				</ParentWindow>	
+			</WindowSpecification>
+			<Result target="FlatFile">C:\Wistron\DataSource\Temp\Var_Get_Windows_Text.txt</Result>
+		</Activity>
+	 	<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S4.launch Cut_info_for_S3_S4.bat" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">C:\Wistron\DataSource\Cut_info_for_S3_S4.bat</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+		</Activity>
+		
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" defer="1" description="LR241_S4.Check Pass info.(Failure can be ignored)">
+			<Source source="FlatFile">C:\Wistron\DataSource\Temp\Var_Get_Windows_Text.txt</Source>
+			<Criteria source="RawData" passCriteria="Loose">PASS - test finished</Criteria>
+		</Activity>
+		
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_S4.If goto.(Failure can be ignored)" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Test_Finished_PASS_S4</Condition>      
+			<Condition previousActivityResult="Fail">Fail_Test_Finished_PASS_S4</Condition>       
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Fail_Test_Finished_PASS_S4" defer="1" description="LR241_S3.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>		
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" defer="1" description="LR241_S4.Check Unexpected info.(Failure can be ignored)">
+			<Source source="FlatFile">C:\Wistron\DataSource\Temp\Unexpected.txt</Source>
+			<Criteria source="RawData" passCriteria="Loose">Unexpected reboot during S4 test!</Criteria>
+		</Activity>			
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_S4.If goto.(Failure can be ignored)" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Unexpected_S4</Condition>      
+			<Condition previousActivityResult="Fail">Fail_Unexpected_S4</Condition>       
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Fail_Unexpected_S4" defer="1" description="LR241_S4.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>		
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" defer="1" description="LR241_S4.Check Unknown info.(Failure can be ignored)">
+			<Source source="FlatFile">C:\Wistron\DataSource\Temp\Unknown.txt</Source>
+			<Criteria source="RawData" passCriteria="Loose">Unknown interruption during S4 test!</Criteria>
+		</Activity>			
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_S4.If goto.(Failure can be ignored)" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Unknown_S4</Condition>      
+			<Condition previousActivityResult="Fail">Fail_Unknown_S4</Condition>       
+		</Activity>		
+
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Pass_Unknown_S4" defer="1" description="LR241_S4.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Pass_Unexpected_S4" defer="1" description="LR241_S4.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>			
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Pass_Test_Finished_PASS_S4" defer="1" description="LR241_S4.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>
+		
+		<Activity handler="AutoFlow.UIData.ActivityScreenCapture" executionMode="Async" mode="Begin" description="LR241_S4.Cut_Screen" defer="1">
+			<FileName interval="1" maxCaptureCount="5">C:\Longrun\Log\S4\</FileName>
+			<DesktopName></DesktopName>
+		</Activity>		
+		<Activity handler="AutoFlow.UIData.ActivityScreenCapture" defer="1" executionMode="Async" mode="End" description="LR241_S4.Cut_Screen">
+		</Activity>		
+		
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S4.Move log file" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>C:\Longrun\</WorkingDir>
+				<CommandLine>/c "move /y *.log Log\S4"</CommandLine>
+			</StartupInfo>
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S4.Click Stop button" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Stop</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_S4.Click Close button" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Close</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_S4.Copy Log to Server" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">C:\Wistron\DataSource\Copy_Log.bat</FileName>
+				<WorkingDir/>
+				<CommandLine/>
+			</StartupInfo>
+		</Activity>
+		
+	</Macro>
+
+
+	<Macro name="LR241_Warm_boot">
+
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_Warm_boot.del old Log File" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>%windir%\system32\</WorkingDir>
+				<CommandLine>/c "del /q/a/f/s /f C:\Longrun\Log\Warm_boot\*.*"</CommandLine>
+			</StartupInfo>
+		</Activity>
+		
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_Warm_boot.md Warm_boot Folder" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>%windir%\system32\</WorkingDir>
+				<CommandLine>/c "md C:\Longrun\Log\Warm_boot"</CommandLine>
+			</StartupInfo>
+		</Activity>
+
+	
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_Warm_boot.launch longrun.exe" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Longrun\longrun.exe</FileName>
+				<WorkingDir/>
+				<CommandLine/>
+			</StartupInfo>
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Click Warm boot Button" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ControlType>TabItem</ControlType>
+						<Name>Warm boot</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Edit Repeat cycles" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Edit</ClassName>
+						<ControlType>Edit</ControlType>
+						<Name>Repeat cycles:</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_Warm_boot.Clear Repeat cycles Data">
+			<Text>{BACKSPACE 50}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_Warm_boot.Type 500 times for Repeat cycles">
+			<Text>3</Text>
+		</Activity>
+ 		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="LR241_Warm_boot.Type 500 times for Repeat cycles " defer="1" maxRetryCount="15">
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>C:\Wistron\DataSource\</WorkingDir>
+				<CommandLine>/c "echo 3> C:\Wistron\DataSource\Temp\Count_times.txt"</CommandLine>
+			</StartupInfo>			
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Edit OS time" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Edit</ClassName>
+						<ControlType>Edit</ControlType>
+						<Name>OS time:</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_Warm_boot.Clear OS time Data">
+			<Text>{BACKSPACE 50}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_Warm_boot.Type 50s for OS time">
+			<Text>50</Text>
+		</Activity>
+
+		<Activity handler="AutoFlow.UIData.ActivityGetWindowCurrentValue" description="LR241_Warm_boot.Get Stop if devices check error Status" terminateIfFail="false" defer="1" maxRetryCount="10" retryInterval="1">			
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>#32770</ClassName>
+					<ControlType>Window</ControlType>
+				</ParentWindow>
+				<DescendantWindow>
+					<ClassName>Button</ClassName>
+					<ControlType>CheckBox</ControlType>
+					<Name>Stop if devices check error</Name>
+				</DescendantWindow>
+			</WindowSpecification>	
+			<Result target="Dictionary">Var_Stop_if_devices_check_error_Warm_boot</Result>			
+		</Activity>
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" defer="1" description="LR241_Warm_boot.CheckData Stop if Check error?(Failure can be ignored)">
+			<Source source="Dictionary">Var_Stop_if_devices_check_error_Warm_boot</Source>
+			<Criteria source="RawData" passCriteria="Strick">Checked</Criteria>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_Warm_boot.if goto(Failure can be ignored)" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Stop_if_devices_check_error_Warm_boot</Condition>
+			<Condition previousActivityResult="Fail">Fail_Stop_if_devices_check_error_Warm_boot</Condition>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" label="Pass_Stop_if_devices_check_error_Warm_boot" description="LR241_Warm_boot.Click Stop if devices check error" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>CheckBox</ControlType>
+						<Name>Stop if devices check error</Name>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" label="Fail_Stop_if_devices_check_error_Warm_boot" description="LR241_Warm_boot.Click Check Devices button" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<Automationld>1039</Automationld>
+						<ClassName>Button</ClassName>
+						<ControlType>CheckBox</ControlType>
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="LR241_Warm_boot.Type UP Key 1000 times">
+			<Text>{UP 100}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Click Check Driver lists" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" xAxisRatio="0.067992" yAxisRatio="0.197333" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Device</Name>						
+					</DescendantWindow>	
+				</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Click Close button" maxRetryCount="30" retryInterval="1" terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Close</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="LR241_Warm_boot.Get computer user name" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+					<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir>
+					<CommandLine>/c "Echo %username%>C:\wistron\DataSource\UserAccountsName.txt"</CommandLine>
+			</StartupInfo>						     
+		</Activity>	
+		
+<!--
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Click Run button" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Run</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+
+
+		
+		<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="LR241_Warm_boot.Reboot-label" terminateIfFail="false">
+			<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+			<TypeName>AutoFlow.ServiceClient</TypeName>
+			<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In/>
+				</Param>
+				<Param>	                 
+					<In source="FlatFile">C:\Wistron\DataSource\UserAccountsName.txt</In>
+				</Param>
+				<Param>						
+					<In/>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>						 
+					<In>-plan ./WistronAPlan/ReplacePQPlan.xml  -label Reboot01 -report ./Report/report.PM_LongRun.xml -log ./Log/log.PM_LongRun.txt</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>False</In>
+				</Param>
+				<Param>
+					<In>LocalSystem</In>
+				</Param>
+		</Activity>
+		<Activity handler="AutoFlow.ActivityManualTest" description="LR241_Warm_boot.Manual operation" terminateIfFail="False" timeout="-1">
+			<Caption>Manual operation</Caption>
+			<Message>等待OS自动重启
+			</Message>
+		</Activity>
+-->		
+	</Macro>
+
+
+	<Macro name="LR241_Warm_boot_01">
+	
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Warm_boot.keys：Win+M" terminateIfFail="true">
+			<Key action="Down">LWIN</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Warm_boot.keys：Win+M" terminateIfFail="true">
+			<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Warm_boot.keys：Win+M" terminateIfFail="true">
+			<Key action="Up">LWIN</Key>
+		</Activity>
+		<Activity handler="AutoFlow.ShellScript.ActivityPowerShell" description="LR241_Warm_boot.Get UserName" maxRetryCount="50">
+			<Script option="CodeSnippet">
+	             [string] $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name.split('\')[1]
+	             return $username
+			</Script>       
+			<Ouput target="Dictionary">UserName</Ouput>       
+		</Activity>			
+		<Activity handler="AutoFlow.UIData.ActivityGetWindowText" description="LR241_Warm_boot.Get Window text" maxRetryCount="50" retryInterval="1">
+			<WindowSpecification>
+				<ParentWindow>
+					 <ClassName>#32770</ClassName>
+					<ControlType>Window</ControlType>
+				</ParentWindow>
+			</WindowSpecification>
+			<Result target="FlatFile">C:\Wistron\DataSource\Temp\Var_Get_Windows_Text.txt</Result>
+		</Activity>	
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" description="LR241_Warm_boot.Check Pass info.(Failure can be ignored)">
+			<Source source="FlatFile">C:\Wistron\DataSource\Temp\Var_Get_Windows_Text.txt</Source>
+			<Criteria source="RawData" passCriteria="Loose">PASS - test finished</Criteria>
+		</Activity>			
+			
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_Warm_boot.If goto.(Failure can be ignored)" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Test_Finished_PASS_Warm_boot</Condition>      
+			<Condition previousActivityResult="Fail">Fail_Test_Finished_PASS_Warm_boot</Condition>       
+		</Activity>
+		
+
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" label="Fail_Test_Finished_PASS_Warm_boot" description="LR241_Warm_boot.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Click Run button(Failure can be ignored)" maxRetryCount="1"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Run</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="LR241_Warm_boot.Auto launcher program after reboot" defer="2">
+			<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+			<TypeName>AutoFlow.ServiceClient</TypeName>
+			<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In/>
+				</Param>
+				<Param>
+					<In>$ez[UserName]</In>
+				</Param>
+				<Param>
+					<In/>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label LR241_Warmboot_00 -report ./Report/PM_LongRun.xml -log ./Log/PM_LongRun.txt</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron\</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>true</In>
+				</Param>
+				<Param>
+					<In>Standard</In>
+				</Param>
+			</Activity>
+			
+		<Activity handler="AutoFlow.ActivityManualTest" description="LR241_Warm_boot.Manual operation.(Failure can be ignored)" terminateIfFail="False" timeout="300">
+			<Caption>Manual operation</Caption>
+			<Message>等待OS自动重启
+			</Message>
+		</Activity>	
+
+
+		
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Pass_Test_Finished_PASS_Warm_boot" description="LR241_Warm_boot.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.UIData.ActivityScreenCapture" executionMode="Async" mode="Begin" description="LR241_Warm_boot.Cut_Screen" defer="1">
+			<FileName interval="1" maxCaptureCount="5">C:\Longrun\Log\Warm_boot\</FileName>
+			<DesktopName></DesktopName>
+		</Activity>		
+		<Activity handler="AutoFlow.UIData.ActivityScreenCapture" defer="1" executionMode="Async" mode="End" description="LR241_Warm_boot.Cut_Screen">
+		</Activity>	
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_Warm_boot.Move log file" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>C:\Longrun\</WorkingDir>
+				<CommandLine>/c "move /y *.log Log\Warm_boot"</CommandLine>
+			</StartupInfo>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Click Stop button(Failure can be ignored)" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Stop</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Click Close button" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Close</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_Warm_boot.Copy Log to Server" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">C:\Wistron\DataSource\Copy_Log.bat</FileName>
+				<WorkingDir/>
+				<CommandLine/>
+			</StartupInfo>
+		</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="LR241_Warm_boot.Auto launcher program after reboot" defer="2">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In/>
+				</Param>
+				<Param>
+					<In>$ez[UserName]</In>
+				</Param>
+				<Param>
+					<In/>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label LR241_Coldboot_00 -report ./Report/PM_LongRun.xml -log ./Log/PM_LongRun.txt</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron\</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>true</In>
+				</Param>
+				<Param>
+					<In>Standard</In>
+				</Param>
+			</Activity>
+	
+	</Macro>
+
+	
+	<Macro name="LR241_Warm_boot_02">
+		
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Warm_boot.keys：Win+M" terminateIfFail="true">
+			<Key action="Down">LWIN</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Warm_boot.keys：Win+M" terminateIfFail="true">
+			<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Warm_boot.keys：Win+M" terminateIfFail="true">
+			<Key action="Up">LWIN</Key>
+		</Activity>
+<!--
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="LR241_Warm_boot.del text" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>C:\Longrun\</WorkingDir>
+				<CommandLine>/c "del C:\Wistron\DataSource\Temp\Var_Get_Windows_Text_Warm_boot.txt"</CommandLine>
+			</StartupInfo>
+		</Activity>		
+		
+		<Activity handler="AutoFlow.UIData.ActivityGetWindowText" description="LR241_Warm_boot.Get Window text" maxRetryCount="50" retryInterval="1">
+			<WindowSpecification>
+				<ParentWindow>
+					 <ClassName>#32770</ClassName>
+					<ControlType>Window</ControlType>
+				</ParentWindow>
+			</WindowSpecification>
+			<Result target="FlatFile">C:\Wistron\DataSource\Temp\Var_Get_Windows_Text_Warm_boot.txt</Result>
+		</Activity>
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" description="LR241_Warm_boot.Check Pass info.(Failure can be ignored)">
+			<Source source="FlatFile">C:\Wistron\DataSource\Temp\Var_Get_Windows_Text_Warm_boot.txt</Source>
+			<Criteria source="RawData" passCriteria="Loose">PASS - test finished</Criteria>
+		</Activity>
+		
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_Warm_boot.If goto.(Failure can be ignored)" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Test_Finished_PASS_Warm_boot_02</Condition>      
+			<Condition previousActivityResult="Fail">Fail_Test_Finished_PASS_Warm_boot_02</Condition>       
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Fail_Test_Finished_PASS_Warm_boot_02" defer="1" description="LR241_Warm_boot.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>			
+		
+		<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="LR241_Warm_boot.Reboot-label" terminateIfFail="false">
+			<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+			<TypeName>AutoFlow.ServiceClient</TypeName>
+			<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In/>
+				</Param>
+				<Param>	                 
+					<In source="FlatFile">C:\Wistron\DataSource\UserAccountsName.txt</In>
+				</Param>
+				<Param>						
+					<In/>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>						 
+					<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label Reboot01 -report ./Report/report.PM_LongRun.xml -log ./Log/log.PM_LongRun.txt</In>
+				</Param>				
+				<Param>
+					<In>C:\Wistron</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>False</In>
+				</Param>
+				<Param>
+					<In>LocalSystem</In>
+				</Param>
+		</Activity>
+		
+		<Activity handler="AutoFlow.ActivityManualTest" description="LR241_Warm_boot.Manual operation" terminateIfFail="False" timeout="-1">
+			<Caption>Manual operation</Caption>
+			<Message>等待OS自动重启
+			</Message>
+		</Activity>		
+
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping"  label="Pass_Test_Finished_PASS_Warm_boot_02" defer="1" description="LR241_Warm_boot.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>			
+-->	
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_Warm_boot.Move log file" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>C:\Longrun\</WorkingDir>
+				<CommandLine>/c "move /y *.log Log\Warm_boot"</CommandLine>
+			</StartupInfo>
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Click Stop button" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Stop</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Click Close button" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Close</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_Warm_boot.Copy Log to Server" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">C:\Wistron\DataSource\Copy_Log.bat</FileName>
+				<WorkingDir/>
+				<CommandLine/>
+			</StartupInfo>
+		</Activity>	
+
+
+	</Macro>
+
+
+
+	<Macro name="LR241_Warm_boot_011111">
+	
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Warm_boot.keys：Win+M" terminateIfFail="true">
+			<Key action="Down">LWIN</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Warm_boot.keys：Win+M" terminateIfFail="true">
+			<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Warm_boot.keys：Win+M" terminateIfFail="true">
+			<Key action="Up">LWIN</Key>
+		</Activity>
+
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="LR241_Warm_boot.del text" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>C:\Longrun\</WorkingDir>
+				<CommandLine>/c "del C:\Wistron\DataSource\Temp\Var_Get_Windows_Text_Warm_boot.txt"</CommandLine>
+			</StartupInfo>
+		</Activity>		
+		
+		<Activity handler="AutoFlow.UIData.ActivityGetWindowText" description="LR241_Warm_boot.Get Window text" maxRetryCount="50" retryInterval="1">
+			<WindowSpecification>
+				<ParentWindow>
+					 <ClassName>#32770</ClassName>
+					<ControlType>Window</ControlType>
+				</ParentWindow>
+			</WindowSpecification>
+			<Result target="FlatFile">C:\Wistron\DataSource\Temp\Var_Get_Windows_Text_Warm_boot.txt</Result>
+		</Activity>
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" description="LR241_Warm_boot.Check Pass info.(Failure can be ignored)">
+			<Source source="FlatFile">C:\Wistron\DataSource\Temp\Var_Get_Windows_Text_Warm_boot.txt</Source>
+			<Criteria source="RawData" passCriteria="Loose">PASS - test finished</Criteria>
+		</Activity>
+		
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_Warm_boot.If goto.(Failure can be ignored)" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Test_Finished_PASS_Warm_boot_01</Condition>      
+			<Condition previousActivityResult="Fail">Fail_Test_Finished_PASS_Warm_boot_01</Condition>       
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Fail_Test_Finished_PASS_Warm_boot_01" description="LR241_Warm_boot.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>			
+
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Click Run button(Failure can be ignored)" maxRetryCount="10"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Run</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="LR241_Warm_boot.Reboot-label" terminateIfFail="false">
+			<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+			<TypeName>AutoFlow.ServiceClient</TypeName>
+			<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In/>
+				</Param>
+				<Param>	                 
+					<In source="FlatFile">C:\Wistron\DataSource\UserAccountsName.txt</In>
+				</Param>
+				<Param>						
+					<In/>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>						 
+					<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label Reboot02 -report ./Report/report.PM_LongRun.xml -log ./Log/log.PM_LongRun.txt</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>False</In>
+				</Param>
+				<Param>
+					<In>LocalSystem</In>
+				</Param>
+		</Activity>
+		
+		<Activity handler="AutoFlow.ActivityManualTest" description="LR241_Warm_boot.Manual operation" terminateIfFail="False" timeout="-1">
+			<Caption>Manual operation</Caption>
+			<Message>等待OS自动重启
+			</Message>
+		</Activity>		
+
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Pass_Test_Finished_PASS_Warm_boot_01" defer="1" description="LR241_Warm_boot.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>		
+
+	</Macro>
+
+
+	<Macro name="LR241_Warm_boot_0211111">
+		
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Warm_boot.keys：Win+M" terminateIfFail="true">
+			<Key action="Down">LWIN</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Warm_boot.keys：Win+M" terminateIfFail="true">
+			<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LR241_Warm_boot.keys：Win+M" terminateIfFail="true">
+			<Key action="Up">LWIN</Key>
+		</Activity>
+
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="LR241_Warm_boot.del text" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>C:\Longrun\</WorkingDir>
+				<CommandLine>/c "del C:\Wistron\DataSource\Temp\Var_Get_Windows_Text_Warm_boot.txt"</CommandLine>
+			</StartupInfo>
+		</Activity>		
+		
+		<Activity handler="AutoFlow.UIData.ActivityGetWindowText" description="LR241_Warm_boot.Get Window text" maxRetryCount="50" retryInterval="1">
+			<WindowSpecification>
+				<ParentWindow>
+					 <ClassName>#32770</ClassName>
+					<ControlType>Window</ControlType>
+				</ParentWindow>
+			</WindowSpecification>
+			<Result target="FlatFile">C:\Wistron\DataSource\Temp\Var_Get_Windows_Text_Warm_boot.txt</Result>
+		</Activity>
+		<Activity handler="AutoFlow.Verifier.ActivityCheckData" description="LR241_Warm_boot.Check Pass info.(Failure can be ignored)">
+			<Source source="FlatFile">C:\Wistron\DataSource\Temp\Var_Get_Windows_Text_Warm_boot.txt</Source>
+			<Criteria source="RawData" passCriteria="Loose">PASS - test finished</Criteria>
+		</Activity>
+		
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="LR241_Warm_boot.If goto.(Failure can be ignored)" defer="1" terminateIfFail="false">
+			<Condition previousActivityResult="Success">Pass_Test_Finished_PASS_Warm_boot_02</Condition>      
+			<Condition previousActivityResult="Fail">Fail_Test_Finished_PASS_Warm_boot_02</Condition>       
+		</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Fail_Test_Finished_PASS_Warm_boot_02" defer="1" description="LR241_Warm_boot.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>			
+		
+		<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="LR241_Warm_boot.Reboot-label" terminateIfFail="false">
+			<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+			<TypeName>AutoFlow.ServiceClient</TypeName>
+			<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In/>
+				</Param>
+				<Param>	                 
+					<In source="FlatFile">C:\Wistron\DataSource\UserAccountsName.txt</In>
+				</Param>
+				<Param>						
+					<In/>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>						 
+					<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label Reboot01 -report ./Report/report.PM_LongRun.xml -log ./Log/log.PM_LongRun.txt</In>
+				</Param>				
+				<Param>
+					<In>C:\Wistron</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>False</In>
+				</Param>
+				<Param>
+					<In>LocalSystem</In>
+				</Param>
+		</Activity>
+		
+		<Activity handler="AutoFlow.ActivityManualTest" description="LR241_Warm_boot.Manual operation" terminateIfFail="False" timeout="-1">
+			<Caption>Manual operation</Caption>
+			<Message>等待OS自动重启
+			</Message>
+		</Activity>		
+
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping"  label="Pass_Test_Finished_PASS_Warm_boot_02" defer="1" description="LR241_Warm_boot.Null Operation">
+			<Text>{UP}{DOWN}</Text>
+		</Activity>			
+	
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_Warm_boot.Move log file" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>C:\Longrun\</WorkingDir>
+				<CommandLine>/c "move /y *.log Log\Warm_boot"</CommandLine>
+			</StartupInfo>
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Click Stop button" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Stop</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LR241_Warm_boot.Click Close button" maxRetryCount="30"  terminateIfFail="false">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>				
+					</ParentWindow>				
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Close</Name>							
+					</DescendantWindow>				
+				</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LR241_Warm_boot.Copy Log to Server" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="AsInvoker">C:\Wistron\DataSource\Copy_Log.bat</FileName>
+				<WorkingDir/>
+				<CommandLine/>
+			</StartupInfo>
+		</Activity>	
+
+
+	</Macro>
+
+
+
+
+
+
+
+
+
+	
+	
+</MacroList>

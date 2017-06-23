@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<PlanSuiteList>
+
+	<TestSuite>
+		<Name>TestSuite.HighPrivilege</Name>
+	</TestSuite> 
+	<TestSuite label="LongRun">
+		<Name>TestSuite.LR</Name>
+	</TestSuite>
+
+	<TestSuite> 
+	  	<Name>TestSuite.Graphics DisplayPort Functional Test_Shutdown</Name>
+	</TestSuite>
+ 	<TestSuite label="shutdown"> 
+	  	<Name>TestSuite.Graphics DisplayPort Functional Test_Benchmark</Name>
+	</TestSuite>
+ 	<TestSuite label="shutdown2"> 
+	  	<Name>TestSuite.Graphics DisplayPort Functional Test_Shutdown2</Name>
+	</TestSuite>
+ 	<TestSuite label="reboot"> 
+	  	<Name>TestSuite.Graphics DisplayPort Functional Test_Reboot</Name>
+	</TestSuite>
+</PlanSuiteList>

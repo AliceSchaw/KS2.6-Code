@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FlowList>
+	<Flow>
+		<OS>Win10</OS>
+		<Launguage>EN</Launguage>
+		<Version>V0.1</Version>
+		<Provider>Alice H Xiao</Provider>
+		<Date>20160922</Date>
+		<Name>Flow.Voice</Name>
+		<Sequence>			
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey"  defer ="1" description="Windows key" terminateIfFail="true">
+		<Key action="DownUp">LWIN</Key>
+		</Activity> 
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer ="2" description="Open Recorder">
+			<Text>RECORDER</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer ="1" description="Start Recording">
+			<Text>{Enter}</Text>
+		</Activity>
+<!-- 		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer ="2" description="Start Recording">
+			<Text>{Enter}</Text>
+		</Activity> -->
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Start Recording" defer="1" terminateIfFail="false" maxRetryCount="10" >
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>ApplicationFrameWindow</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>Voice Recorder</Name>
+				</ParentWindow>			
+				<DescendantWindow>
+					<ControlType>Button</ControlType>
+					<Name>Start recording</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="30" description="end recording">
+			<Text>{Enter}</Text>
+		</Activity> 	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="play">
+			<Text>{TAB}</Text>
+		</Activity> 		
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey"  defer ="1" description="Windows key" terminateIfFail="true">
+		<Key action="DownUp">SPACE</Key>
+		</Activity> 									
+		<Activity handler="AutoFlow.ActivityManualTest" defer="30" timeout="-1" description="check sound">
+		<Caption>Recording Test</Caption>
+		<Message>Pelease check voise,is that OK?</Message>
+		</Activity> 
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="close recorder">
+			<Text>%{F4}</Text>
+		</Activity>
+
+	
+		</Sequence>
+	</Flow>
+</FlowList>

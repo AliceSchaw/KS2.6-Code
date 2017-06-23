@@ -1,0 +1,62 @@
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+R" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+R" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Run dxDiag">
+						<Text>dxDiag</Text>
+			</Activity> 
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Run dxDiag">
+						<Text>{enter}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动检查信息" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>DxDIAG正确运行</Caption>
+			<Message>步骤1：
+DxDIAG正常运行。
+
+			</Message>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动检查信息" terminateIfFail="False" timeout="-1" defer="1">
+			<Caption>检查system信息</Caption>
+			<Message>步骤2：
+检查System标签下Computer Name，Operating System，Language，Processor，Memory，Page File，DirectX Version正确显示。
+
+			</Message>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="切换标签">
+						<Text>{enter}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动检查信息" terminateIfFail="False" timeout="-1" defer="1">
+			<Caption>检查Display信息</Caption>
+			<Message>步骤3：
+检查Display标签下Notes中显示No problems found。
+
+			</Message>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="切换标签">
+						<Text>{enter 2}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动检查信息" terminateIfFail="False" timeout="-1" defer="1">
+			<Caption>检查Input信息</Caption>
+			<Message>步骤4：
+检查Input标签下Notes中显示No problems found。
+
+			</Message>
+			</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="close DxDIAG">
+				<Text>%{F4}</Text>
+				
+		</Activity> 				

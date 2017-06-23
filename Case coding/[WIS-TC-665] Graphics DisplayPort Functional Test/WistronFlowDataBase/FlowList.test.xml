@@ -1,0 +1,870 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<FlowList>
+	<Flow>
+		<Name>Flow.HighPrivilege</Name>
+		<Sequence>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity> 
+
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Click UAC" terminateIfFail="false" timeout="5" defer="1">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderHighPrivilegeProgram</MethodName>
+				<Param>
+					<In>0</In>
+					<Out target="Dictionary">ProviderHighPrivilegeProgram</Out>
+				</Param>
+				<Param>
+					<In>Winsta0\WinLogon</In>
+				</Param>
+				<Param>
+					<In>-1</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAPlan/Plan.ClickUAC.xml -log ./Log/ClickUACLog1.txt -report ./Report/ClickUACLog1.xml</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron</In>
+				</Param>
+				<Param>
+					<In>1</In>
+				</Param>
+			</Activity> 
+
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="Launch test runner" terminateIfFail="true" timeout="-1">
+				<StartupInfo>
+					<FileName executionMode="Sync" executionLevel="RequireAdministrator">C:\Wistron\TestRunner.exe</FileName>
+					<CommandLine>-plan ./WistronAPlan/ReplacePQPlan.xml -label LongRun -report ./Report/Report.GraphicsDisplayPortFunctionalTest.xml -log ./Log/Log.GraphicsDisplayPortFunctionalTest.txt</CommandLine>
+				</StartupInfo>
+			</Activity>
+		</Sequence>
+	</Flow>
+	<Flow>
+		<Name>Flowlist.LR</Name> 	
+		<Sequence>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动操作" terminateIfFail="False" timeout="-1" defer="1">
+				<Caption>手动操作</Caption>			
+				<Message>						
+_______________________________________________________________________
+
+注意：
+1，确保在英文状态下运行。
+2，比对每一个自动打开的项目，有异常的项目请手动记录下来！
+3,X64操作系统
+_______________________________________________________________________
+				</Message>
+			</Activity>			
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Min_Windows.keys：Win+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Min_Windows.keys：Win+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Min_Windows.keys：Win+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>
+
+			<Activity handler="AutoFlow.FileOperation.ActivityGetFileList" terminateIfFail="true" description="Get file list in specific dir and output to filelist.xml.">
+				<FindFilePath source="RawData">C:\Wistron\tool</FindFilePath>
+				<Recursive>true</Recursive>
+				<ListHiddenFile>false</ListHiddenFile>
+				<Output target="XmlFile">c:\Wistron\Data\filelist.xml | //Root/File</Output>
+			</Activity>
+
+			<Activity handler="AutoFlow.Verifier.ActivityCheckData" description="Check if the mark file exists in filelist.xml." terminateIfFail="false">
+				<Source source="XmlFile">c:\Wistron\Data\filelist.xml | //Root/File</Source>
+				<Criteria source="RawData" compareOption="String" passCriteria="Loose">C:\Wistron\tool\LRsettingMark.txt</Criteria>
+			</Activity>
+
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="if previous activity result is success, goto label A, else if fail, goto label B, otherwise goto Exit.">
+				<Condition previousActivityResult="Success">set</Condition>
+				<Condition previousActivityResult="Fail">notset</Condition>
+				<Condition previousActivityResult="Unknown">Exit</Condition>
+			</Activity>
+
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" label="notset" description="LR_Setting.launch LRSetting.bat" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="RequireAdministrator">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir>
+					<CommandLine>/c "C:\Wistron\DataSource\LRSetting.bat"</CommandLine>
+				</StartupInfo>
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="LRSetting.launch powercfg.cpl" maxRetryCount="15" retryInterval="1">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="AsInvoker">powercfg.cpl</FileName>
+					<WorkingDir/>
+					<CommandLine/>
+				</StartupInfo>
+			</Activity>
+
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click Maximize button(Failure can be ignored)" maxRetryCount="1" terminateIfFail="false">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" xAxisRatio="0.5" yAxisRatio="0.5"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>					
+					</ParentWindow>
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Maximize</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click Require a password on wakeup"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>ControlPanelLink</ClassName>
+						<ControlType>Hyperlink</ControlType>
+						<Name>Choose what the power buttons do</Name>
+					</DescendantWindow>					
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click change settings that are currently unavailable" maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" xAxisRatio="0.5" yAxisRatio="0.5"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>					
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Hyperlink</ControlType>
+						<Name>Change settings that are currently unavailable</Name>	
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click require a password" maxRetryCount="3" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" xAxisRatio="0.2" yAxisRatio="0.5"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>CCRadioButton</ClassName>
+						<ControlType>RadioButton</ControlType>
+						<Name>Require a password (recommended)</Name>						
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LRSetting.Click Down key" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">DOWN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LRSetting.Click Down key" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">DOWN</Key>
+			</Activity>
+
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click When I press the power button: (On battery)"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Combobox</ClassName>
+						<ControlType>ComboBox</ControlType>
+						<Name>When I press the power button: (On battery)</Name>
+					</DescendantWindow>					
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{DOWN}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click Save Changes(Failure can be ignored)" defer="1" maxRetryCount="50" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>						
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>CCPushButton</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Save changes</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.Close PowerOptions Windows" maxRetryCount="10" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Close</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LRSetting.set LR_Setting.txt" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+				<StartupInfo>
+					<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir>
+					<CommandLine>/c "echo Complete LongRun setting >C:\Wistron\tool\LRsettingMark.txt"</CommandLine>
+				</StartupInfo>
+			</Activity>	
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="set" timeout="-1" description="LR set mark">
+				<Text/>
+			</Activity>
+
+		</Sequence>
+	</Flow>
+	<Flow>
+		<Name>Flow.Graphics DisplayPort Functional Test_Shutdown</Name>
+		<Sequence>
+			<Activity handler="AutoFlow.ShellScript.ActivityPowerShell" description="Get UserName">
+			<Script option="CodeSnippet">
+	             [string] $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name.split('\')[1]
+	             return $username
+				</Script>       
+				<Ouput target="FlatFile">C:\wistron\datasource\UserAccountsName.txt</Ouput>       
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="echo reboot times" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+				<StartupInfo>
+					<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir>
+					<CommandLine>/c "echo 15 >C:\Wistron\DataSource\reboot.txt"</CommandLine>
+				</StartupInfo>
+			</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" defer="1" description="Step1.手动操作" terminateIfFail="false" timeout="-1">
+				<Caption>Step1.手动操作</Caption>
+				<Message>
+点击确认自动关机。关机后，通过DP/miniDP接口连接外接monitor。再开机。
+				</Message>
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Auto launcher program after shutdown" defer="1">
+			<AssemblyFullPathName>C:\wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+			<TypeName>AutoFlow.ServiceClient</TypeName>
+			<MethodName>ProviderAutoProgramLauncher</MethodName>
+			<Param>
+			  <In>
+			  </In>
+			</Param>			
+			<Param>
+			  <In source="FlatFile">C:\wistron\datasource\UserAccountsName.txt</In>
+			</Param>
+			<Param>
+			  <In>
+			  </In>
+			</Param>
+			<Param>
+			  <In>C:\wistron\TestRunner.exe</In>
+			</Param>
+			<Param>
+			<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label shutdown -report ./Report/Report.GraphicsDisplayPortFunctionalTest.xml -log ./Log/Log.GraphicsDisplayPortFunctionalTest.txt</In>
+				</Param>
+			<Param>
+			  <In>C:\wistron\</In>
+			</Param>
+			<Param>
+			  <In>Winsta0\Default</In>
+			</Param>
+			<Param>
+			  <In>true</In>
+			</Param>
+			<Param>
+			  <In>LocalSystem</In>
+			</Param>
+		</Activity>	
+		
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Let system Shutdown" defer="1" timeout="-1" maxRetryCount="15">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderShutdown</MethodName>
+				<Param>
+					<In>None</In>
+				</Param>
+				<Param>
+					<In>0</In>
+				</Param>
+			</Activity>	
+		</Sequence>
+	</Flow>
+
+	<Flow>
+		<Name>Flow.Graphics DisplayPort Functional Test_Benchmark</Name>
+		<Sequence>
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="Step1.launch devmgmt.msc" defer="1" maxRetryCount="15" retryInterval="3">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="RequireAdministrator">devmgmt.msc</FileName>
+					<WorkingDir/>
+					<CommandLine/>
+				</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer ="2" description="Tab key" terminateIfFail="false">
+				<Key action="DownUp">TAB</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="type processor">
+				<Text>{D 2}</Text>
+			</Activity>
+	        <Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer ="1" description="Right key" terminateIfFail="false">
+				<Key action="DownUp">RIGHT</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" defer="1" description="Step2.手动操作" terminateIfFail="false" timeout="-1">
+				<Caption>Step2.手动操作</Caption>
+				<Message>
+开启外接显示器（monitor）。确认设备管理器Display Adapters选项中有列出monitor，没有黄色警告符（Yellow Bang）。
+右击桌面，选择Intel Graphics Settings，检查测试机处于目前允许最大分辨率。
+确认没有问题点击Yes。接下来运行Heaven Benchmark。
+				</Message>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="close Device Manager" defer="1" maxRetryCount="15">
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left"  />
+			<WindowSpecification>
+			<ParentWindow>
+				<ClassName>MMCMainFrame</ClassName>
+				<ControlType>Window</ControlType>
+				<Name>Device Manager</Name>
+			</ParentWindow>        
+			<DescendantWindow>
+				<ControlType>Button</ControlType>
+				<Name>Close</Name>
+			</DescendantWindow>  
+			</WindowSpecification>
+			</Activity>
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="运行Valley Benchmark 1.0程序" defer="1" maxRetryCount="1" retryInterval="1" terminateIfFail="false">
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Program Files (x86)\Unigine\Valley Benchmark 1.0\valley.bat</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+		</Activity>	
+	
+		<Activity handler="AutoFlow.FlowControl.ActivityIf" description="if previous activity result is success, goto label A, else if fail, goto label B, otherwise goto Exit.">
+                <Condition previousActivityResult="Success">installed</Condition>
+                <Condition previousActivityResult="Fail">noinstall</Condition>
+            </Activity>
+	
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" label="noinstall" description="打开Unigine_Valley安装程序" terminateIfFail="true" maxRetryCount="100" timeout="-1">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="AsInvoker">"C:\Wistron\DataSource\Tool\Unigine_Valley-1.0.exe"</FileName>
+					<WorkingDir/>
+				</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="install - next >" maxRetryCount="20"  terminateIfFail="true" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" xAxisRatio="0.5" yAxisRatio="0.5"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>TWizardForm</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Setup - Unigine Valley Benchmark</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>TNewButton</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Next ></Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中安装许可">
+				<Text>{TAB}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中安装许可">
+				<Text>{UP}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="点击Next">
+				<Text>{ENTER}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="点击Next">
+				<Text>KS{ENTER}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="默认安装路径，点击Next">
+				<Text>{ENTER}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="默认启动图标，点击Next">
+				<Text>{ENTER}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Install，点击Next">
+				<Text>{ENTER}</Text>
+			</Activity>				
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="install - install" maxRetryCount="100"  terminateIfFail="true" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" xAxisRatio="0.5" yAxisRatio="0.5"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>TWizardForm</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Setup - Unigine Valley Benchmark</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>TNewButton</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Finish</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>	
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="运行Valley Benchmark 1.0程序" defer="1" maxRetryCount="15" retryInterval="3">
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Program Files (x86)\Unigine\Valley Benchmark 1.0\valley.bat</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+		</Activity>			
+		
+		
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="点击Run按钮" defer="2" terminateIfFail="false" maxRetryCount="30" retryInterval="1" label="installed">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left"  xAxisRatio="0.84545" yAxisRatio="0.7095" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>  		   
+						<ClassName>QWidget</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Unigine Valley Benchmark (Basic Edition)</Name>
+					</ParentWindow> 
+				</WindowSpecification>
+			</Activity>
+		
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="25" description="Run benchmark" terminateIfFail="true">
+				<Key action="DownUp" count="1">F9</Key>
+		</Activity> 
+
+			<Activity handler="AutoFlow.ActivityManualTest" description="step3-check" timeout="-1" defer="260">
+				<Caption>step3.手动操作</Caption>
+				<Message>
+Benchmark 成功结束， 请记录下FPS,Score.
+				</Message>
+			</Activity>
+			<Activity handler="AutoFlow.UIData.ActivityScreenCapture" defer="1" executionMode="Sync" mode="Begin" description="async capture screen">
+				<FileName interval="0.5" maxCaptureCount="1">C:\Wistron\DataSource\Temp\AC_DX10.jpg</FileName>
+				<DesktopName>Default</DesktopName>
+			</Activity>
+			<Activity handler="AutoFlow.UIData.ActivityScreenCapture" defer="1" executionMode="Async" mode="End" description="async capture screen">
+			</Activity>
+		<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="exit valley" defer="3" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+			<StartupInfo>
+				<FileName executionMode="Sync" executionLevel="RequireAdministrator">%windir%\system32\cmd.exe</FileName>
+				<WorkingDir>%windir%\system32\</WorkingDir>
+				<CommandLine>/c " taskkill /f /im Valley.exe /im browser_x86.exe"</CommandLine>
+			</StartupInfo>
+		</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="step4/5-check" timeout="-1" defer="5">
+				<Caption>Step4/5.手动操作</Caption>
+				<Message>
+播放BD/DVD电影五分钟。确认SUT与monitor视频和音频是同步的。
+之后关闭外接显示器。
+接下来自动关机，请手动开机。
+确认没有问题点击Yes。
+				</Message>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Auto launcher program after shutdown" defer="1">
+			<AssemblyFullPathName>C:\wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+			<TypeName>AutoFlow.ServiceClient</TypeName>
+			<MethodName>ProviderAutoProgramLauncher</MethodName>
+			<Param>
+			  <In>
+			  </In>
+			</Param>			
+			<Param>
+			  <In source="FlatFile">C:\wistron\datasource\UserAccountsName.txt</In>
+			</Param>
+			<Param>
+			  <In>
+			  </In>
+			</Param>
+			<Param>
+			  <In>C:\wistron\TestRunner.exe</In>
+			</Param>
+			<Param>
+			<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label shutdown2 -report ./Report/Report.GraphicsDisplayPortFunctionalTest.xml -log ./Log/Log.GraphicsDisplayPortFunctionalTest.txt</In>
+				</Param>
+			<Param>
+			  <In>C:\wistron\</In>
+			</Param>
+			<Param>
+			  <In>Winsta0\Default</In>
+			</Param>
+			<Param>
+			  <In>true</In>
+			</Param>
+			<Param>
+			  <In>LocalSystem</In>
+			</Param>
+		</Activity>	
+		
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Let system Shutdown" defer="1" timeout="-1" maxRetryCount="15">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderShutdown</MethodName>
+				<Param>
+					<In>None</In>
+				</Param>
+				<Param>
+					<In>0</In>
+				</Param>
+			</Activity>	
+		</Sequence>
+	</Flow>			
+
+	<Flow>
+		<Name>Flow.Graphics DisplayPort Functional Test_Shutdown2</Name>
+		<Sequence>	
+				<Activity handler="AutoFlow.ActivityManualTest" defer="3" description="Step6.进入S3提示" terminateIfFail="true" timeout="-1">
+		<Caption>Step6.提示</Caption>
+		<Message>接下将进入s3，并自动恢复。重复三次</Message>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityLoop" defer="3" description="Flow loop" mode="Begin">
+		<LoopCount source="RawData">3</LoopCount>
+		</Activity>
+
+		<Activity handler="AutoFlow.Launcher.ActivityInvoker" defer="2" description="goto s3 and wake up after 45s">
+			　<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.Exe</AssemblyFullPathName>
+			　<TypeName>AutoFlow.ServiceClient</TypeName>
+			　<MethodName>ProviderS3S4</MethodName>
+			 <Param>
+	　		　<In>S3</In>
+	　		 </Param>
+	　		 <Param>
+	　		　<In>45</In>
+			 </Param>
+		</Activity>
+		<Activity handler="AutoFlow.ActivityManualTest" description="step6-check" timeout="-1" defer="1">					
+				<Caption>Step6.手动操作</Caption>
+				<Message>
+播放BD/DVD电影五分钟。确认SUT与monitor视频和音频是同步的。
+确认没有问题点击Yes。
+				</Message>
+		</Activity>	
+		<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="End"/>
+						<Activity handler="AutoFlow.ActivityManualTest" defer="3" description="Step7.进入S3提示" terminateIfFail="true" timeout="-1">
+		<Caption>Step7.提示</Caption>
+		<Message>接下将进入s3，并自动恢复。请在进入S3后拔掉DP线，等待一分钟重新插入。重复三次</Message>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityLoop" defer="3" description="Flow loop" mode="Begin">
+		<LoopCount source="RawData">3</LoopCount>
+		</Activity>
+
+		<Activity handler="AutoFlow.Launcher.ActivityInvoker" defer="2" description="goto s3 and wake up after 60s">
+			　<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.Exe</AssemblyFullPathName>
+			　<TypeName>AutoFlow.ServiceClient</TypeName>
+			　<MethodName>ProviderS3S4</MethodName>
+			 <Param>
+	　		　<In>S3</In>
+	　		 </Param>
+	　		 <Param>
+	　		　<In>60</In>
+			 </Param>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="End"/>
+		<Activity handler="AutoFlow.ActivityManualTest" defer="3" description="进入S4提示" terminateIfFail="true" timeout="-1">
+		<Caption>Step9.提示</Caption>
+		<Message>接下将进入s4，并自动恢复。重复三次</Message>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityLoop" defer="3" description="Flow loop" mode="Begin">
+		<LoopCount source="RawData">3</LoopCount>
+		</Activity>
+
+		<Activity handler="AutoFlow.Launcher.ActivityInvoker" defer="2" description="goto s4 and wake up after 45s">
+			　<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.Exe</AssemblyFullPathName>
+			　<TypeName>AutoFlow.ServiceClient</TypeName>
+			　<MethodName>ProviderS3S4</MethodName>
+			 <Param>
+	　		　<In>S4</In>
+	　		 </Param>
+	　		 <Param>
+	　		　<In>45</In>
+			 </Param>
+		</Activity>
+		<Activity handler="AutoFlow.ActivityManualTest" description="step5-check" timeout="-1" defer="1">					
+				<Caption>Step9.手动操作</Caption>
+				<Message>
+播放BD/DVD电影五分钟。确认SUT与monitor视频和音频是同步的。
+确认没有问题点击Yes。
+				</Message>
+		</Activity>	
+		<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="End"/>
+		<Activity handler="AutoFlow.ActivityManualTest" defer="3" description="进入S3提示" terminateIfFail="true" timeout="-1">
+		<Caption>Step10.提示</Caption>
+		<Message>接下将进入s4，并自动恢复。请在进入S3后拔掉DP线，等待一分钟重新插入。重复三次</Message>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityLoop" defer="3" description="Flow loop" mode="Begin">
+		<LoopCount source="RawData">3</LoopCount>
+		</Activity>
+
+		<Activity handler="AutoFlow.Launcher.ActivityInvoker" defer="2" description="goto s4 and wake up after 60s">
+			　<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.Exe</AssemblyFullPathName>
+			　<TypeName>AutoFlow.ServiceClient</TypeName>
+			　<MethodName>ProviderS3S4</MethodName>
+			 <Param>
+	　		　<In>S4</In>
+	　		 </Param>
+	　		 <Param>
+	　		　<In>60</In>
+			 </Param>
+		</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="End"/>
+			<Activity handler="AutoFlow.ActivityManualTest" description="step8-check" timeout="-1" defer="1">
+				<Caption>Step8.提示</Caption>
+				<Message>
+接下来将重启三次。确保SUT与monitor画面同步。
+				</Message>
+			</Activity>	
+		</Sequence>
+	</Flow>
+	<Flow>
+		<Name>Flow.Graphics DisplayPort Functional Test_Reboot</Name>
+		<Sequence>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="remain times minus 1" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+				<StartupInfo>
+					<FileName executionMode="Sync" executionLevel="AsInvoker">C:\Wistron\DataSource\counter1.bat</FileName>
+				</StartupInfo>
+			</Activity>				    
+			<Activity handler="AutoFlow.Verifier.ActivityCheckData" defer="1" description="Checkdata(Failure can be ignored)">
+				<Source source="FlatFile">C:\Wistron\DataSource\reboot.txt</Source>
+				<Criteria source="RawData" compareOption="NumEQ" passCriteria="Strick">11</Criteria>
+			</Activity>				
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="Setp8.Activity If label" defer="1" terminateIfFail="false">
+				<Condition previousActivityResult="Success">R_Y</Condition>      
+				<Condition previousActivityResult="Fail">R_N</Condition>       
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="step8.reboot" terminateIfFail="true" defer="1" label="R_N">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In/>
+				</Param>
+				<Param>
+					<In source="FlatFile">C:\wistron\datasource\UserAccountsName.txt</In>
+				</Param>
+				<Param>						
+					<In/>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label reboot -report ./Report/Report.GraphicsDisplayPortFunctionalTest.xml -log ./Log/Log.GraphicsDisplayPortFunctionalTest.txt</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>true</In>
+				</Param>
+				<Param>
+					<In>LocalSystem</In>
+				</Param>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="step8.Let system reboot" defer="1" maxRetryCount="12" retryInterval="3">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderReboot</MethodName>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="10" description="UpDown" terminateIfFail="false" label="R_Y">  
+				<Text>{Up}{DOWN}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="delete reboot,txt" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+				<StartupInfo>
+					<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir>
+					<CommandLine>/c "del C:\Wistron\DataSource\reboot.txt"</CommandLine>
+				</StartupInfo>
+			</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="step11-check" timeout="-1" defer="1">
+				<Caption>Step11.手动操作</Caption>
+				<Message>
+该步骤仅针对台式机或一体机。
+AC/DC循环，在SUT开机后，检查monitor正常显示；设备管理器中monitor项正确列出，没有黄色警告符；检查音频/视频是否同步。
+重复三次。
+				</Message>
+			</Activity>		
+			<Activity handler="AutoFlow.ActivityManualTest" description="step12-check" timeout="-1" defer="1">
+				<Caption>Step12.手动操作</Caption>
+				<Message>
+在测试机正常运行时，关闭外接显示器，等待30s重新开启外接显示器。
+检查monitor正常显示；设备管理器中monitor项正确列出，没有黄色警告符（Yellow Bang）；检查Windows桌面正常显示。
+重复三次。
+				</Message>
+			</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+		</Activity> 
+	
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="Launch PowerOption" terminateIfFail="true" maxRetryCount="10" retryInterval="1">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="RequireAdministrator">powercfg.cpl</FileName>
+					<WorkingDir></WorkingDir>
+					<CommandLine></CommandLine>
+				</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="click Choose when to turn off the display"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>ControlPanelLink</ClassName>
+						<ControlType>Hyperlink</ControlType>
+						<Name>Choose when to turn off the display</Name>
+					</DescendantWindow>					
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="click Turn off the display: (On battery)"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Combobox</ClassName>
+						<ControlType>ComboBox</ControlType>
+						<Name>Turn off the display: (On battery)</Name>
+					</DescendantWindow>					
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="click 1 minutes"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Combobox</ClassName>
+						<ControlType>ComboBox</ControlType>
+						<Name>Turn off the display: (On battery)</Name>
+					</DescendantWindow>	
+					<DescendantWindow>
+						<ControlType>ListItem</ControlType>
+						<Name>1 minute</Name>
+					</DescendantWindow>					
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="click Turn off the display: (Plugged in)"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Combobox</ClassName>
+						<ControlType>ComboBox</ControlType>
+						<Name>Turn off the display: (Plugged in)</Name>
+					</DescendantWindow>					
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="click 1 minutes"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Combobox</ClassName>
+						<ControlType>ComboBox</ControlType>
+						<Name>Turn off the display: (Plugged in)</Name>
+					</DescendantWindow>	
+					<DescendantWindow>
+						<ControlType>ListItem</ControlType>
+						<Name>1 minute</Name>
+					</DescendantWindow>					
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Saving changes"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>CCPushButton</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Save changes</Name>
+					</DescendantWindow>					
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+
+			<Activity handler="AutoFlow.ActivityManualTest" description="step13-check" timeout="-1" defer="1">
+				<Caption>Step13.手动操作</Caption>
+				<Message>
+等待1min，SUT进入熄屏。
+熄屏后等待30S。对于触摸屏，点击屏幕唤醒。对于非触摸屏，按空格键唤醒。
+重复三次后，点击YES。
+				</Message>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="step14/15-check" timeout="-1" defer="1">
+				<Caption>Step14/15.手动操作</Caption>
+				<Message>
+是否支持AOAC，支持点击YES。
+				</Message>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="if previous activity result is success, goto label A, else if fail, goto label B, otherwise goto Exit.">
+				<Condition previousActivityResult="Success">supportAOAC</Condition>
+				<Condition previousActivityResult="Fail">notsupportAOAC</Condition>
+				<Condition previousActivityResult="Unknown">notsupportAOAC</Condition>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="step17-check" timeout="-1" defer="1" label="notsupportAOAC">
+				<Caption>Step17.手动操作</Caption>
+				<Message>
+分别使用DP-to-DVI，DP-to-VGA，DP-to HDMI-Dongle连接monitor。
+重新执行本程序，repeat all above section。
+				</Message>
+			</Activity>		
+		</Sequence>
+	</Flow>
+</FlowList>

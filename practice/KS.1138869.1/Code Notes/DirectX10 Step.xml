@@ -1,0 +1,196 @@
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入samplebrowser" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Program Files (x86)\Microsoft DirectX SDK (February 2010)\Samples\SampleBrowser\SampleBrowser.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+			</Activity>			
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="Show">
+				<Text>{TAB 6}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中Direct3D10">
+				<Text>{DOWN 10}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="run 10BitScanout10">
+				<Text>{TAB 5}~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>CascadedShadowMaps11</Caption>
+			<Message>步骤9-1：
+按空格改变模型，按F10切换旋转/停止，按Alt+Enter切换全屏/窗口。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="End 10BitScanout10">
+				<Text>{ESC}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="End 10BitScanout10">
+				<Text>%{F4}</Text>
+			</Activity>		
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="run DDSWithoutD3DX">
+				<Text>{TAB 5}~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>DDSWithoutD3DX</Caption>
+			<Message>步骤9-2：
+利用鼠标滚轮推进拉远镜头，按下鼠标左键拖动转动视角，按下鼠标右键放大局部。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="End DDSWithoutD3DX">
+				<Text>{ESC}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="End DDSWithoutD3DX">
+				<Text>%{F4}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="run HDAO10.1">
+				<Text>{TAB 5}~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>HDAO10.1</Caption>
+			<Message>步骤9-3：
+利用鼠标滚轮推进拉远镜头，按下鼠标左键拖动转动视角。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="End HDAO10.1">
+				<Text>{ESC}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="End HDAO10.1">
+				<Text>%{F4}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="run TransparencyAA10.1">
+				<Text>{TAB 5}~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>TransparencyAA10.1</Caption>
+			<Message>步骤9-4：
+利用鼠标滚轮推进拉远镜头，按下鼠标左键拖动转动视角，按下鼠标右键放大局部。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="End TransparencyAA10.1">
+				<Text>{ESC}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="End TransparencyAA10.1">
+				<Text>%{F4}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="run MeshFromOBJ10">
+				<Text>{TAB 5}~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>MeshFromOBJ10</Caption>
+			<Message>步骤9-5：
+利用鼠标滚轮推进拉远镜头，按下鼠标左键拖动转动模型，按下鼠标右键转动视角。
+按下S切换模型。
+测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="End MeshFromOBJ10">
+				<Text>{ESC}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="End MeshFromOBJ10">
+				<Text>%{F4}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="run Pick10">
+				<Text>{TAB 5}~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>Pick10</Caption>
+			<Message>步骤9-6：
+按下鼠标左/右键停止旋转并移动到模型上检视网格。
+测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="End Pick10">
+				<Text>{ESC}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="End Pick10">
+				<Text>%{F4}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="run DeferredParticles">
+				<Text>{TAB 5}~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>DeferredParticles</Caption>
+			<Message>步骤9-7：
+利用鼠标滚轮推进拉远镜头，按下鼠标左键拖动转动视角，按下鼠标右键拖动改变光源。
+按下R重置，按下D开启渲染延迟。
+测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="End DeferredParticles">
+				<Text>{ESC}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="End DeferredParticles">
+				<Text>%{F4}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="run DepthOfField10.1">
+				<Text>{TAB 5}~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>DeferredParticles</Caption>
+			<Message>步骤9-8：
+利用鼠标滚轮推进拉远镜头，按下鼠标左键拖动转动模型。
+测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="End DepthOfField10.1">
+				<Text>{ESC}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="End DepthOfField10.1">
+				<Text>%{F4}</Text>
+			</Activity>
+		<Activity handler="AutoFlow.FlowControl.ActivityLoop" defer="1" description="Flow loop" mode="Begin">
+		<LoopCount source="RawData">7</LoopCount>
+		</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="run Samples">
+				<Text>{TAB 5}~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>DeferredParticles</Caption>
+			<Message>步骤9：
+利用鼠标滚轮推进拉远镜头，按下鼠标左键拖动转动模型。
+测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="End Samples">
+				<Text>{ESC}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="End Samples">
+				<Text>%{F4}</Text>
+			</Activity>		
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="End"/>	
+			<Activity handler="AutoFlow.ActivityManualTest" defer="1" description="DirectInput"  timeout="-1">
+				<Caption>DirectInput test</Caption>
+				<Message>是否为Customer平台？是请按YES继续，Bussiness/Commerical平台请按NO继续</Message>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="Customer Platform support">
+				<Condition previousActivityResult="Success">Customer</Condition>
+				<Condition previousActivityResult="Fail">noCustomer</Condition>
+				<Condition previousActivityResult="Unknown">noCustomer</Condition>
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入CustomFormat.exe" timeout="-1" terminateIfFail="true" maxRetryCount="10" label="Customer">
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Program Files (x86)\Microsoft DirectX SDK (February 2010)\Samples\C++\DirectInput\Bin\x64\CustomFormat.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+			</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" defer="1" description="CustomFormat"  timeout="-1">
+				<Caption>CustomFormat</Caption>
+				<Message>步骤10-1：
+确认运行一分钟没有问题，点击yes后开始测试。</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="End CustomFormat">
+				<Text>%{F4}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="Finish" terminateIfFail="False" timeout="-1" defer="2" label="noCustomer">
+				<Caption>Manual</Caption>
+				<Message>测试完成，请查看c:\wistron\report下的report是否有不正常的fail，如果有，请向testleader询问是否是issue。请点击YES结束本次测试。</Message>
+			</Activity>

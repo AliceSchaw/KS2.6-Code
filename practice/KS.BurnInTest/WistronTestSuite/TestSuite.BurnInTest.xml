@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestSuiteList>
+	<TestSuite label="reboot">
+		<OS>Win10</OS>
+		<Launguage>EN</Launguage>
+		<Version>V0.1</Version>
+		<Provider>Alice H Xiao</Provider>
+		<Date>20160929</Date>
+		<Name>TestSuite.BurnInTest</Name>
+		<TestCase>
+			<Name>Flow.BurnInTest</Name>
+		</TestCase>
+	</TestSuite>	
+	<TestSuite label="shutdown">
+		<Name>TestSuite.BurnInTest1</Name>
+		<TestCase>
+			<Name>Flow.BurnInTest1</Name>
+		</TestCase>
+	</TestSuite>	
+	<TestSuite label="BurnInTest">
+		<Name>TestSuite.BurnInTest2</Name>
+		<TestCase>
+			<Name>Flow.BurnInTest2</Name>
+		</TestCase>
+	</TestSuite>	
+</TestSuiteList>

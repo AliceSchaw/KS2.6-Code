@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+<TestSuiteList>
+<OS>Win10 x86/X64</OS>
+<Language>EN</Language>
+<Version>v0.1</Version>
+<Provider>Alice H Xiao </Provider>
+<Date>20170412</Date>
+
+<TestSuite>
+		<Name>TestSuite.HighPrivilege</Name>
+		<TestCase loopCount="1" terminateIfFail="false">
+			<Name>Flow.HighPrivilege</Name>
+		</TestCase>  
+	</TestSuite>
+<TestSuite label="LongRun">
+		<Name>TestSuite.LR</Name>
+		<TestCase loopCount="1" terminateIfFail="false">
+			<Name>Flowlist.LR</Name>
+		</TestCase>  
+	</TestSuite>
+
+
+	<TestSuite>  
+	  	<Name>TestSuite.Environment-Install-Reboot</Name>
+			<TestCase loopCount="1" terminateIfFail="true">
+				<Name>Flow.Environment-Install-Reboot</Name>        
+			</TestCase>	
+	</TestSuite>
+ 	<TestSuite label="reboot">  
+	  	<Name>TestSuite.LOM_Offline_Files</Name>
+			<TestCase loopCount="1" terminateIfFail="true">
+				<Name>Flow.LOM_Offline_Files</Name>        
+			</TestCase>	
+	</TestSuite>
+ 	<TestSuite label="shutdown">  
+	  	<Name>TestSuite.LOM_Offline_Files_Shutdown</Name>
+			<TestCase loopCount="1" terminateIfFail="true">
+				<Name>Flow.LOM_Offline_Files_Shutdown</Name>        
+			</TestCase>	
+	</TestSuite>
+
+	
+</TestSuiteList>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

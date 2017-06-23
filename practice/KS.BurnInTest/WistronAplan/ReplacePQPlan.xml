@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlanSuiteList>
+	<OS>Win10</OS>
+	<Launguage>EN</Launguage>
+	<Version>V0.1</Version>
+	<Provider>Alice H Xiao</Provider>
+	<Date>20160929</Date>
+	<TestSuite label="reboot">
+		<Name>TestSuite.BurnInTest</Name>
+	</TestSuite>
+	<TestSuite label="shutdown">
+		<Name>TestSuite.BurnInTest1</Name>
+	</TestSuite>	
+	<TestSuite label="BurnInTest">
+		<Name>TestSuite.BurnInTest2</Name>
+	</TestSuite>
+</PlanSuiteList>

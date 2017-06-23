@@ -1,0 +1,307 @@
+			<Activity handler="AutoFlow.Verifier.ActivityCheckInstalledApp" description="Pre_install.check if DX SDK was installed." label="TestApp_install">
+				<PersistFileName>C:\Wistron\DataSource\InstalledAppList.txt</PersistFileName>
+				<Criteria>
+					<IncludeApplication>
+						<DisplayName>Microsoft DirectX SDK (February 2010)</DisplayName >
+						<DisplayVersion>9.28.1886.0</DisplayVersion>
+						<Publisher>Microsoft Corporation</Publisher>
+					</IncludeApplication>
+				</Criteria>
+			</Activity>
+			
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="Pre_install.Activity If label" defer="1" terminateIfFail="false">
+				<Condition previousActivityResult="Success">DXSDK_install</Condition>      
+				<Condition previousActivityResult="Fail">DXSDK_Uninstall</Condition>       
+			</Activity>
+
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="DXSDK_Uninstall" defer="1" description="Pre_install.Install DXSDK">
+				<Text></Text>
+			</Activity>			
+			<Activity handler="AutoFlow.ActivityManualTest" description="复制安装文件" terminateIfFail="False" timeout="-1" defer="1">
+			<Caption>开始安装DXSDK</Caption>
+			<Message>步骤5：
+确认已经复制DXSDK至路径C:\Wistron\DataSource\Tool\Directx11 Feb 2010中
+
+说明：
+可执行文件exe放在Directx11 Feb 2010下，否则会导致自动安装失败。本次软件列表：
+C:\Wistron\DataSource\Directx11 Feb 2010\DXSDK_Feb10.exe
+
+			</Message>
+			</Activity>	
+	
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入安装程序" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Wistron\DataSource\Directx11 Feb 2010\DXSDK_Feb10.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="Start Install">
+						<Text>~</Text>
+			</Activity>	
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="accept agreement">
+						<Text>{TAB}{UP}{enter}</Text>
+			</Activity>	
+			 <Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="勾选同意">
+						<Text>{TAB 3}</Text>
+			</Activity> 			 
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="3" description="勾选同意" terminateIfFail="true">
+			<Key action="DownUp">SPACE</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="click next">
+						<Text>~</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="click next">
+						<Text>~</Text>
+			</Activity>		
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="click next">
+						<Text>~</Text>
+			</Activity>				
+			 <Activity handler="AutoFlow.InputDevice.ActivityMouseClick" defer="100" description="Finish Install Passmark" maxRetryCount="100" terminateIfFail="false" retryInterval="1">
+			<Click clickCount="1" clickInterval="0.2" xAxisRatio="0.5" yAxisRatio="0.5" autoMirror="false" clickButton="Left" clickMechanism="MouseEvent" downUpInterval="0" buttonAction="DownUp"/>
+							<WindowSpecification>
+								<ParentWindow>
+									<ClassName>#32770</ClassName>
+									<ControlType>Window</ControlType>
+									<Name>Microsoft DirectX SDK (February 2010)</Name>
+								</ParentWindow>
+								<DescendantWindow>
+									<ControlType>Button</ControlType>
+									<Name>Finish</Name>
+								</DescendantWindow>
+							</WindowSpecification>
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirror="false" filterByYAxisIndexFirst="true"/>
+			 </Activity>
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="DXSDK_install" defer="1" description="Pre_install.Install DxSDK">
+				<Text>{UP}{DOWN}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入samplebrowser" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Program Files (x86)\Microsoft DirectX SDK (February 2010)\Samples\SampleBrowser\SampleBrowser.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Show">
+				<Text>{TAB 6}</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中Direct3D11">
+				<Text>{DOWN 10}{UP 4}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="选中BasicCompute">
+				<Text>{TAB 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="运行BasicCompute">
+				<Text>{Enter}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="运行CascadedShadowMaps11">
+				<Text>CascadedShadowMaps11.exe{Enter}</Text>
+			</Activity>
+
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>CascadedShadowMaps11</Caption>
+			<Message>步骤8-2：
+利用W/A/S/D前后左右移动，Q/E上下移动，按下鼠标左键拖动转动视角。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="end CascadedShadowMaps11.exe">
+				<Text>{ESC}</Text>
+		</Activity> 
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="end CascadedShadowMaps11.exe">
+				<Text>%{F4}</Text>
+		</Activity> 	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="end CascadedShadowMaps11.exe">
+				<Text>%{F4}</Text>
+		</Activity> 	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+R" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+R" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Run cmd">
+						<Text>cmd~</Text>
+			</Activity> 		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="run BasicCompute">
+				<Text>cd C:\Program Files {(}x86{)}\Microsoft DirectX SDK {(}February 2010{)}\Samples\C{+}{+}\Direct3D11\Bin\x64{Enter}</Text>
+		</Activity>	
+
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="run BasicHLSL11.exe">
+				<Text>BasicHLSL11.exe{ENTER}</Text>
+		</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>BasicHLSL11</Caption>
+			<Message>步骤8-3：
+利用鼠标滚轮推进拉远镜头，按下鼠标左键拖动转动视角，按下鼠标右键拖动改变光源。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="end BasicHLSL11.exe">
+				<Text>{ESC}</Text>
+		</Activity> 
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="run ContactHardeningShadows11.exe">
+				<Text>ContactHardeningShadows11.exe{ENTER}</Text>
+		</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>ContactHardeningShadows11</Caption>
+			<Message>步骤8-4：
+利用W/A/S/D前后左右移动，Q/E上下移动，按下鼠标左键拖动转动视角。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="end ContactHardeningShadows11.exe">
+				<Text>{ESC}</Text>
+		</Activity> 
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="run DDSWithoutD3DX11.exe">
+				<Text>DDSWithoutD3DX11.exe{ENTER}</Text>
+		</Activity>			
+	
+		<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>DDSWithoutD3DX11</Caption>
+			<Message>步骤8-5：
+利用鼠标滚轮推进拉远镜头，按下鼠标左键拖动转动视角。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="end DDSWithoutD3DX11.exe">
+				<Text>{ESC}</Text>
+		</Activity> 
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="run AdaptiveTessellationCS40.exe">
+				<Text>AdaptiveTessellationCS40.exe{Enter}</Text>
+		</Activity>			
+
+		<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>AdaptiveTessellationCS40</Caption>
+			<Message>步骤8-6：
+利用W/S推进拉远镜头，按下鼠标左键拖动或Q/E/A/D移动画面。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="AdaptiveTessellationCS40.exe">
+				<Text>{ESC}</Text>
+		</Activity> 
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="运行DetailTessellation11">
+				<Text>DetailTessellation11.exe{Enter}</Text>
+			</Activity>
+
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>DetailTessellation11</Caption>
+			<Message>步骤8-7：
+利用W/A/S/D前后左右移动，Q/E上下移动，按下鼠标左键拖动转动视角。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="end DetailTessellation11.exe">
+				<Text>{ESC}</Text>
+		</Activity> 
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="运行DynamicShaderLinkage11">
+				<Text>DynamicShaderLinkage11.exe{Enter}</Text>
+			</Activity>
+
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>DynamicShaderLinkage11</Caption>
+			<Message>步骤8-8：
+按下鼠标左键拖动转动模型，按下鼠标右键拖动转动光源，按下鼠标中键拖动旋转摄像头，滑动鼠标滚轮缩放。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="end DetailTessellation11.exe">
+				<Text>{ESC}</Text>
+		</Activity> 
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="运行HDRToneMappingCS11">
+				<Text>HDRToneMappingCS11.exe{Enter}</Text>
+			</Activity>
+
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>HDRToneMappingCS11</Caption>
+			<Message>步骤8-9：
+按下鼠标左/右键拖动转动视角。
+按P打开后处理。
+按B添加日光。
+按S全屏模糊。
+测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="end HDRToneMappingCS11.exe">
+				<Text>{ESC}</Text>
+		</Activity>
+		
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="运行MultithreadedRendering11">
+				<Text>MultithreadedRendering11.exe{Enter}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>MultithreadedRendering11</Caption>
+			<Message>步骤8-10：
+按下鼠标左键拖动转动模型，按下鼠标右键拖动转动光源，按下鼠标中键拖动旋转摄像头，滑动鼠标滚轮缩放。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="end MultithreadedRendering11.exe">
+				<Text>{ESC}</Text>
+		</Activity> 
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="运行NBodyGravityCS11">
+				<Text>NBodyGravityCS11.exe{Enter}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>NBodyGravityCS11</Caption>
+			<Message>步骤8-11：
+按下鼠标左/右/中键拖动转动模型，滑动鼠标滚轮缩放。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="end NBodyGravityCS11.exe">
+				<Text>{ESC}</Text>
+		</Activity> 
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="运行OIT11">
+				<Text>OIT11.exe{Enter}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>OIT11</Caption>
+			<Message>步骤8-12：
+按下鼠标左/右拖动转动视角。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="end OIT11.exe">
+				<Text>{ESC}</Text>
+		</Activity> 
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="run PNTriangles11.exe">
+				<Text>PNTriangles11.exe{ENTER}</Text>
+		</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>PNTriangles11</Caption>
+			<Message>步骤8-12：
+利用鼠标滚轮推进拉远镜头，按下鼠标左键拖动转动视角，按下鼠标右键拖动改变光源。测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="end PNTriangles11.exe">
+				<Text>{ESC}</Text>
+		</Activity> 		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="run SimpleBezier11.exe">
+				<Text>SimpleBezier11.exe{ENTER}</Text>
+		</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动测试" terminateIfFail="False" timeout="-1" defer="5">
+			<Caption>PNTriangles11</Caption>
+			<Message>步骤8-13：
+按下鼠标左键拖动转动模型。拖动Patch Division滚动条改变切割密度。点击Toggle Wires显示网格。
+测试一分钟确保没有问题。点击确定后开始测试。
+
+			</Message>
+			</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="7" description="end SimpleBezier11.exe">
+				<Text>{ESC}</Text>
+		</Activity> 		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="end cmd">
+				<Text>EXIT</Text>
+		</Activity> 

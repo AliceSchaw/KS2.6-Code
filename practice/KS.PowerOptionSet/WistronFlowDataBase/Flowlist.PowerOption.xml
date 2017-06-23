@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FlowList>
+	<Flow>
+		<OS>Win10</OS>
+		<Launguage>EN</Launguage>
+		<Version>V0.1</Version>
+		<Provider>Alice H Xiao</Provider>
+		<Date>20160929</Date>
+		<Name>Flow.PowerOption</Name>
+		<Sequence>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>			
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>			
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入ControlPanel" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Windows\system32\control.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+			</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="System and Security" defer="1" terminateIfFail="true" maxRetryCount="10" >
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>CabinetWClass</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>Control Panel</Name>
+				</ParentWindow>			
+				<DescendantWindow>
+					<ControlType>Hyperlink</ControlType>
+					<Name>System and Security</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Change what the power buttons do" defer="1" terminateIfFail="true" maxRetryCount="10" >
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>CabinetWClass</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>System and Security</Name>
+				</ParentWindow>			
+				<DescendantWindow>
+					<ControlType>Hyperlink</ControlType>
+					<Name>Change what the power buttons do</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="When I press the power button" defer="1" terminateIfFail="true" maxRetryCount="10" >
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>CabinetWClass</ClassName>
+					<ControlType>Window</ControlType>					
+				</ParentWindow>					
+				<DescendantWindow>
+					<ControlType>ComboBox</ControlType>
+					<Name>When I press the power button: (On battery)</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Set do nothing">
+				<Text>{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="Set do nothing">
+				<Text>{TAB}{DOWN}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="click Save Changes" defer="1" maxRetryCount="5" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>						
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>CCPushButton</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Save changes</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+
+			<Activity handler="AutoFlow.ActivityManualTest" defer="3" description="进入S3提示" terminateIfFail="true" timeout="-1">
+			<Caption>提示</Caption>
+			<Message>接下将进入s3</Message>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" defer="2" description="goto s3 and wake up after 45s">
+				　<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.Exe</AssemblyFullPathName>
+				　<TypeName>AutoFlow.ServiceClient</TypeName>
+				　<MethodName>ProviderS3S4</MethodName>
+				 <Param>
+		　		　<In>S3</In>
+		　		 </Param>
+		　		 <Param>
+		　		　<In>45</In>
+				 </Param>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" defer="3" description="进入S4提示" terminateIfFail="true" timeout="-1">
+			<Caption>提示</Caption>
+			<Message>接下将进入s4</Message>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" defer="2" description="goto s3 and wake up after 45s">
+				　<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.Exe</AssemblyFullPathName>
+				　<TypeName>AutoFlow.ServiceClient</TypeName>
+				　<MethodName>ProviderS3S4</MethodName>
+				 <Param>
+		　		　<In>S4</In>
+		　		 </Param>
+		　		 <Param>
+		　		　<In>60</In>
+				 </Param>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" defer="3" description="Close PowerOptions Windows" maxRetryCount="10" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Close</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>	
+		</Sequence>
+	</Flow>
+</FlowList>

@@ -1,0 +1,837 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<FlowList>
+	<Flow>
+		<Name>Flow.HighPrivilege</Name>
+		<Sequence>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity> 
+
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Click UAC" terminateIfFail="false" timeout="5" defer="1">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderHighPrivilegeProgram</MethodName>
+				<Param>
+					<In>0</In>
+					<Out target="Dictionary">ProviderHighPrivilegeProgram</Out>
+				</Param>
+				<Param>
+					<In>Winsta0\WinLogon</In>
+				</Param>
+				<Param>
+					<In>-1</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAPlan/Plan.ClickUAC.xml -log ./Log/ClickUACLog1.txt -report ./Report/ClickUACLog1.xml</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron</In>
+				</Param>
+				<Param>
+					<In>1</In>
+				</Param>
+			</Activity> 
+
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="Launch test runner" terminateIfFail="true" timeout="-1">
+				<StartupInfo>
+					<FileName executionMode="Sync" executionLevel="RequireAdministrator">C:\Wistron\TestRunner.exe</FileName>
+					<CommandLine>-plan ./WistronAPlan/ReplacePQPlan.xml -label LongRun -report ./Report/Report.LOM_LAN_Integration_Tests_Power_Cycles_Verification.xml -log ./Log/Log.LOM_LAN_Integration_Tests_Power_Cycles_Verification.txt</CommandLine>
+				</StartupInfo>
+			</Activity>
+		</Sequence>
+	</Flow>
+	<Flow>
+		<Name>Flowlist.LR</Name> 	
+		<Sequence>
+			<Activity handler="AutoFlow.ActivityManualTest" description="手动操作" terminateIfFail="False" timeout="-1" defer="1">
+				<Caption>手动操作</Caption>			
+				<Message>						
+_______________________________________________________________________
+
+注意：
+1，确保在英文状态下运行。
+2，比对每一个自动打开的项目，有异常的项目请手动记录下来！
+3,X64操作系统
+_______________________________________________________________________
+				</Message>
+			</Activity>			
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Min_Windows.keys：Win+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Min_Windows.keys：Win+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Min_Windows.keys：Win+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>
+
+			<Activity handler="AutoFlow.FileOperation.ActivityGetFileList" terminateIfFail="true" description="Get file list in specific dir and output to filelist.xml.">
+				<FindFilePath source="RawData">C:\Wistron\tool</FindFilePath>
+				<Recursive>true</Recursive>
+				<ListHiddenFile>false</ListHiddenFile>
+				<Output target="XmlFile">c:\Wistron\Data\filelist.xml | //Root/File</Output>
+			</Activity>
+
+			<Activity handler="AutoFlow.Verifier.ActivityCheckData" description="Check if the mark file exists in filelist.xml." terminateIfFail="false">
+				<Source source="XmlFile">c:\Wistron\Data\filelist.xml | //Root/File</Source>
+				<Criteria source="RawData" compareOption="String" passCriteria="Loose">C:\Wistron\tool\LRsettingMark.txt</Criteria>
+			</Activity>
+
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="if previous activity result is success, goto label A, else if fail, goto label B, otherwise goto Exit.">
+				<Condition previousActivityResult="Success">set</Condition>
+				<Condition previousActivityResult="Fail">notset</Condition>
+				<Condition previousActivityResult="Unknown">Exit</Condition>
+			</Activity>
+
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" label="notset" description="LR_Setting.launch LRSetting.bat" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="RequireAdministrator">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir>
+					<CommandLine>/c "C:\Wistron\DataSource\LRSetting.bat"</CommandLine>
+				</StartupInfo>
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="LRSetting.launch powercfg.cpl" maxRetryCount="15" retryInterval="1">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="AsInvoker">powercfg.cpl</FileName>
+					<WorkingDir/>
+					<CommandLine/>
+				</StartupInfo>
+			</Activity>
+
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click Maximize button(Failure can be ignored)" maxRetryCount="1" terminateIfFail="false">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" xAxisRatio="0.5" yAxisRatio="0.5"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>					
+					</ParentWindow>
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Maximize</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click Require a password on wakeup"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>ControlPanelLink</ClassName>
+						<ControlType>Hyperlink</ControlType>
+						<Name>Choose what the power buttons do</Name>
+					</DescendantWindow>					
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click change settings that are currently unavailable" maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" xAxisRatio="0.5" yAxisRatio="0.5"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>					
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Button</ClassName>
+						<ControlType>Hyperlink</ControlType>
+						<Name>Change settings that are currently unavailable</Name>	
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click require a password" maxRetryCount="3" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1" xAxisRatio="0.2" yAxisRatio="0.5"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>CCRadioButton</ClassName>
+						<ControlType>RadioButton</ControlType>
+						<Name>Require a password (recommended)</Name>						
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LRSetting.Click Down key" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">DOWN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LRSetting.Click Down key" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">DOWN</Key>
+			</Activity>
+
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click When I press the power button: (On battery)"  maxRetryCount="20" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>Combobox</ClassName>
+						<ControlType>ComboBox</ControlType>
+						<Name>When I press the power button: (On battery)</Name>
+					</DescendantWindow>					
+					<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirro="false" filterByYAxisIndexFirst="false"/>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{DOWN}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="LRSetting.Set do nothing">
+				<Text>{TAB}{UP 5}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.click Save Changes(Failure can be ignored)" defer="1" maxRetryCount="50" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>						
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>CCPushButton</ClassName>
+						<ControlType>Button</ControlType>
+						<Name>Save changes</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="LRSetting.Close PowerOptions Windows" maxRetryCount="10" terminateIfFail="false" retryInterval="1">
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+					</ParentWindow>
+					<DescendantWindow>
+						<ControlType>Button</ControlType>
+						<Name>Close</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="1" description="LRSetting.set LR_Setting.txt" timeout="-1" terminateIfFail="true" maxRetryCount="10">
+				<StartupInfo>
+					<FileName executionMode="Sync" executionLevel="AsInvoker">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir>
+					<CommandLine>/c "echo Complete LongRun setting >C:\Wistron\tool\LRsettingMark.txt"</CommandLine>
+				</StartupInfo>
+			</Activity>	
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="set" timeout="-1" description="LR set mark">
+				<Text/>
+			</Activity>
+
+		</Sequence>
+	</Flow>
+	<Flow>
+		<Name>Flow.Environment-Install-Reboot</Name>
+		<Sequence>
+
+			<Activity handler="AutoFlow.ShellScript.ActivityPowerShell" description="Get UserName" label="installed">
+				<Script option="CodeSnippet">
+	             [string] $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name.split('\')[1]
+	             return $username
+				</Script>       
+				<Ouput target="FlatFile">C:\wistron\datasource\UserAccountsName.txt</Ouput>       
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Auto launcher program after reboot3" defer="1">
+				<AssemblyFullPathName>C:\wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In>
+					</In>
+				</Param>			
+				<Param>
+					<In source="FlatFile">C:\wistron\datasource\UserAccountsName.txt</In>
+				</Param>
+				<Param>
+					<In>
+					</In>
+				</Param>
+				<Param>
+					<In>C:\wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label reboot -report ./Report/Report.LOM_LAN_Integration_Tests_Power_Cycles_Verification.xml -log ./Log/Log.LOM_LAN_Integration_Tests_Power_Cycles_Verification.txt</In>
+				</Param>
+				<Param>
+					<In>C:\wistron\</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>true</In>
+				</Param>
+				<Param>
+					<In>LocalSystem</In>
+				</Param>
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="2-Let system reboot" defer="1" maxRetryCount="12" retryInterval="3">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderReboot</MethodName>
+			</Activity>	
+		</Sequence>
+	</Flow>
+
+	<Flow>
+		<Name>Flow.LOM_LAN_Integration_Tests_Power_Cycles_Verification</Name>
+		<Sequence>
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>
+
+			<Activity handler="AutoFlow.ActivityManualTest" defer="2" description="Step1.提示" terminateIfFail="true" timeout="-1">
+				<Caption>Step1.手动操作</Caption>
+				<Message>连接TE网线，确认网络连接正常。</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>				
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="server" terminateIfFail="false" defer="1">
+				<Text>\\172.16.0.2\test files\1.各种格式~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="检测是否连接过server-1(fail不计)" defer="10" maxRetryCount="15" retryInterval="3">
+				<Click clickCount="1" xAxisRatio="0.2" yAxisRatio="0.5" autoMirror="true" clickButton="Left" clickMechanism="MouseEvent" buttonAction="DownUp"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Windows Security</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>RestrictedEdit</ClassName>
+						<ControlType>Edit</ControlType>
+						<Name>User name</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+				<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirror="true" filterByYAxisIndexFirst="false"/>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="check result">
+				<Condition previousActivityResult="Success">type-username</Condition>
+				<Condition previousActivityResult="Fail">no-need</Condition>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="type username" label="type-username">
+				<Text>user1</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="select key">
+				<Text>{TAB}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="检测是否连接过server-2（fail 不计）" defer="3" maxRetryCount="15" retryInterval="3">
+				<Click clickCount="1" xAxisRatio="0.2" yAxisRatio="0.5" autoMirror="true" clickButton="Left" clickMechanism="MouseEvent" buttonAction="DownUp"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>#32770</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Windows Security</Name>
+					</ParentWindow>
+					<DescendantWindow>
+						<ClassName>RestrictedEdit</ClassName>
+						<ControlType>Edit</ControlType>
+						<Name>Password</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+				<XYAxisIndexFilter xIndex="0" yIndex="0" autoMirror="true" filterByYAxisIndexFirst="false"/>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="check result">
+				<Condition previousActivityResult="Success">type-key</Condition>
+				<Condition previousActivityResult="Fail">no-need</Condition>
+			</Activity>		
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="type key-Us111111" label="type-key">
+				<Text>Us111111</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="click Remember my credentials">
+				<Text>{TAB}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="check" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">SPACE</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="click OK">
+				<Text>{TAB}~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="5" description="WIN+UP" terminateIfFail="true" label="no-need">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+UP" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">UP</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+UP" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="step5-check results" timeout="-1" defer="10" terminateIfFail="true">
+				<Caption>Step5-1.手动操作</Caption>
+				<Message>
+确认正常打开server。
+手动Disable LAN Driver。
+				</Message>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="Alt+F4" terminateIfFail="false">
+				<Text>%{F4}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>				
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="server" terminateIfFail="false" defer="1">
+				<Text>\\172.16.0.2\test files\1.各种格式~</Text>
+			</Activity>
+
+			<Activity handler="AutoFlow.ActivityManualTest" description="step5-check results" timeout="-1" defer="10" terminateIfFail="true">
+				<Caption>Step5-2.手动操作</Caption>
+				<Message>
+确认server在LAN Disable后无法连接。
+手动Enable LAN Driver。
+				</Message>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>				
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="server" terminateIfFail="false" defer="1">
+				<Text>\\172.16.0.2\test files\1.各种格式~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="Control" terminateIfFail="true" defer="6">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="AsInvoker">C:\windows\System32\eventvwr.exe</FileName>
+					<WorkingDir>C:\windows\System32</WorkingDir>			
+				</StartupInfo>
+			</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="step5-check results" timeout="-1" defer="10" terminateIfFail="true">
+				<Caption>Step5-2.手动操作</Caption>
+				<Message>
+确认server在LAN Enable后正常连接。
+Event viewer中没有error。
+				</Message>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="close event viewer" defer="2" maxRetryCount="20">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="RequireAdministrator">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir> 
+					<CommandLine>/c "taskkill -f -im mmc.exe"</CommandLine>
+				</StartupInfo>
+			</Activity>
+
+
+			<Activity handler="AutoFlow.ActivityManualTest" defer="2" description="step2.提示" terminateIfFail="true" timeout="-1">
+				<Caption>Step2.提示</Caption>
+				<Message>接下来将重复上传/下载文件五次，确认没有问题。</Message>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="Begin">
+				<LoopCount source="RawData">5</LoopCount>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="delete 100M" defer="2" maxRetryCount="20">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="RequireAdministrator">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir> 
+					<CommandLine>/c "del C:\Wistron\DataSource\100M.txt"</CommandLine>
+				</StartupInfo>
+			</Activity>
+
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>				
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="server" terminateIfFail="false" defer="1">
+				<Text>\\172.16.0.2\test files\1.各种格式~</Text>
+			</Activity>
+
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="choose data">
+				<Text>100M</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Down">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Copy" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">C</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Up">CONTROL</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="Alt+F4" terminateIfFail="false">
+				<Text>%{F4}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="拷贝到SUT的路径" terminateIfFail="false" defer="1">
+				<Text>C:\Wistron\DataSource~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Left Click DataSource window" defer="5" maxRetryCount="15" retryInterval="3">
+				<Click clickCount="1" xAxisRatio="0.5" yAxisRatio="0.02" autoMirror="true" clickButton="Left" clickMechanism="MouseEvent" buttonAction="DownUp"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>DataSource</Name>
+					</ParentWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Down">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="paste" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">V</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Up">CONTROL</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Left Click DataSource window" defer="5" maxRetryCount="15" retryInterval="3">
+				<Click clickCount="1" xAxisRatio="0.5" yAxisRatio="0.02" autoMirror="true" clickButton="Left" clickMechanism="MouseEvent" buttonAction="DownUp"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>DataSource</Name>
+					</ParentWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="type 10">
+				<Text>10M</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Down">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="copy" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">C</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Up">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="Alt+F4" terminateIfFail="false">
+				<Text>%{F4}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="server" terminateIfFail="false" defer="1">
+				<Text>\\172.16.0.2\test files\1.各种格式~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Max window" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">UP</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Down">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Paste" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">V</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Up">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="step5-launch IE-open-youku.com">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="AsInvoker">C:\Program Files\Internet Explorer\iexplore.exe</FileName>
+					<WorkingDir/>
+					<CommandLine>http://www.youku.com/</CommandLine>
+				</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="step5-check results" timeout="-1" defer="10" terminateIfFail="true">
+				<Caption>Step2.手动操作</Caption>
+				<Message>
+播放在线视频五分钟，进行在线3D游戏五分钟。确保过程流畅。
+在IPV6设置下重复以上步骤。
+				</Message>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="close IE" defer="2" maxRetryCount="20">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="RequireAdministrator">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir> 
+					<CommandLine>/c "taskkill -f -im iexplore.exe"</CommandLine>
+				</StartupInfo>
+			</Activity>
+
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="End"/>
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Auto launcher program after shutdown" defer="1">
+				<AssemblyFullPathName>C:\wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In>
+					</In>
+				</Param>			
+				<Param>
+					<In source="FlatFile">C:\wistron\datasource\UserAccountsName.txt</In>
+				</Param>
+				<Param>
+					<In>
+					</In>
+				</Param>
+				<Param>
+					<In>C:\wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAPlan/ReplacePQPlan.xml -label shutdown -report ./Report/Report.LOM_LAN_Integration_Tests_Power_Cycles_Verification.xml -log ./Log/Log.LOM_LAN_Integration_Tests_Power_Cycles_Verification.txt</In>
+				</Param>
+				<Param>
+					<In>C:\wistron\</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>true</In>
+				</Param>
+				<Param>
+					<In>LocalSystem</In>
+				</Param>
+			</Activity>	
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" terminateIfFail="true" timeout="30" description="step11-shutdown">
+				<AssemblyFullPathName>.\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderShutdown</MethodName>
+				<Param>
+					<In>None</In>
+				</Param>
+				<Param>
+					<In>60</In>
+				</Param>
+			</Activity>
+		</Sequence>
+	</Flow>
+	<Flow>
+		<Name>Flow.LOM_LAN_Integration_Tests_Power_Cycles_Verification_Shutdown</Name>
+		<Sequence>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity> 	
+			<Activity handler="AutoFlow.ActivityManualTest" defer="2" description="step11.提示" terminateIfFail="true" timeout="-1">
+				<Caption>Step11-1.提示</Caption>
+				<Message>接下来将重复上传/下载文件五次，确认没有问题。</Message>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="Begin">
+				<LoopCount source="RawData">5</LoopCount>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="Copy Batch32.exe to NEW partition D" defer="2" maxRetryCount="20">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="RequireAdministrator">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir> 
+					<CommandLine>/c "del C:\Wistron\DataSource\100M.txt"</CommandLine>
+				</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>				
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="server" terminateIfFail="false" defer="1">
+				<Text>\\172.16.0.2\test files\1.各种格式~</Text>
+			</Activity>
+
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="choose data">
+				<Text>100M</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Down">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="Copy" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">C</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Up">CONTROL</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="Alt+F4" terminateIfFail="false">
+				<Text>%{F4}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="拷贝到SUT的路径" terminateIfFail="false" defer="1">
+				<Text>C:\Wistron\DataSource~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Left Click DataSource window" defer="5" maxRetryCount="15" retryInterval="3">
+				<Click clickCount="1" xAxisRatio="0.5" yAxisRatio="0.02" autoMirror="true" clickButton="Left" clickMechanism="MouseEvent" buttonAction="DownUp"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>DataSource</Name>
+					</ParentWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Down">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="paste" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">V</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Up">CONTROL</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Left Click DataSource window" defer="5" maxRetryCount="15" retryInterval="3">
+				<Click clickCount="1" xAxisRatio="0.5" yAxisRatio="0.02" autoMirror="true" clickButton="Left" clickMechanism="MouseEvent" buttonAction="DownUp"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>DataSource</Name>
+					</ParentWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="type 10">
+				<Text>10M</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Down">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="copy" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">C</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Up">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="Alt+F4" terminateIfFail="false">
+				<Text>%{F4}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">R</Key>
+			</Activity>
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" description="server" terminateIfFail="false" defer="1">
+				<Text>\\172.16.0.2\test files\1.各种格式~</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="R" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">UP</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Down">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="copy" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">V</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="CONTROL" terminateIfFail="true">
+				<Key action="Up">CONTROL</Key>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="step11-launch IE">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="AsInvoker">C:\Program Files\Internet Explorer\iexplore.exe</FileName>
+					<WorkingDir/>
+					<CommandLine>http://www.youku.com/</CommandLine>
+				</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="step11-2手动操作" timeout="-1" defer="10" terminateIfFail="true">
+				<Caption>Step11-2.手动操作</Caption>
+				<Message>
+播放在线视频五分钟，进行在线3D游戏五分钟。确保过程流畅。
+在IPV6设置下重复以上步骤。
+				</Message>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="close IE" defer="2" maxRetryCount="20">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="RequireAdministrator">%windir%\system32\cmd.exe</FileName>
+					<WorkingDir>%windir%\system32\</WorkingDir> 
+					<CommandLine>/c "taskkill -f -im iexplore.exe"</CommandLine>
+				</StartupInfo>
+			</Activity>
+
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="End"/>
+						<Activity handler="AutoFlow.ActivityManualTest" description="step11-check results" timeout="-1" defer="10" terminateIfFail="true">
+				<Caption>Step11-3.提示</Caption>
+				<Message>
+测试结束，请在AD（或DC）模式下重新执行本程序。
+				</Message>
+			</Activity>
+		</Sequence>
+	</Flow>
+</FlowList>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FlowList>
+	<Flow>
+		<OS>Win10</OS>
+		<Launguage>EN</Launguage>
+		<Version>V0.1</Version>
+		<Provider>Alice H Xiao</Provider>
+		<Date>20161107</Date>
+		<Name>Flow.NotepadMacroTest</Name>
+		<Sequence>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>			
+			<Macro name="Setup_Install_Notepad"/>
+		
+		</Sequence>	
+	</Flow>
+</FlowList>

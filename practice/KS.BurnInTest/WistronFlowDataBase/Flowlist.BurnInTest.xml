@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FlowList>
+	<Flow>
+		<OS>Win10</OS>
+		<Launguage>EN</Launguage>
+		<Version>V0.1</Version>
+		<Provider>Alice H Xiao</Provider>
+		<Date>20161107</Date>
+		<Name>Flow.BurnInTest</Name>
+		<Sequence>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>			
+			<Macro name="CheckBurnInTest"/>	
+			<Activity handler="AutoFlow.ShellScript.ActivityPowerShell" description="Get UserName" defer="1">
+				<Script option="CodeSnippet">
+	             [string] $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name.split('\')[1]
+	             return $username
+				</Script>       
+				<Ouput target="FlatFile">C:\Wistron\DataSource\UserAccountsName.txt</Ouput>       
+			</Activity>
+				<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Auto launcher program after reboot" defer="4">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In>
+					</In>
+				</Param>			
+				<Param>
+					<In source="FlatFile">C:\Wistron\DataSource\UserAccountsName.txt</In>
+				</Param>
+				<Param>
+					<In>
+					</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAplan/ReplacePQPlan.xml -label shutdown -report ./Report/Test.xml -log ./Log/Test.txt</In>
+				</Param>
+				<Param>
+					<In>C:\wistron\</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>true</In>
+				</Param>
+				<Param>
+					<In>Standard</In>
+				</Param>
+			</Activity>	
+			<Activity handler="AutoFlow.ActivityManualTest" description="提示" timeout="-1" defer="2">
+				<Caption>提示</Caption>
+				<Message>接下来进行Warm Boot</Message>
+			</Activity> 
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" terminateIfFail="false" defer="4" description="enter S5 then wakeup">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderReboot</MethodName>
+			</Activity> 		
+		</Sequence>
+	</Flow>
+	<Flow> 
+		<Name>Flow.BurnInTest1</Name>
+		<Sequence>
+			<Activity  handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="4" description="LWIN">
+				<Key action="Down">LWIN</Key>
+			</Activity> 
+			<Activity  handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="M">
+				<Key action="DownUp">M</Key>
+			</Activity> 
+			<Activity  handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="LWIN">
+				<Key action="Up">LWIN</Key>
+			</Activity>
+		
+		
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Auto launcher program after shutdown" defer="1">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderAutoProgramLauncher</MethodName>
+				<Param>
+					<In>
+					</In>
+				</Param>			
+				<Param>
+					<In source="FlatFile">C:\Wistron\DataSource\UserAccountsName.txt</In>
+				</Param>
+				<Param>
+					<In>
+					</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron\TestRunner.exe</In>
+				</Param>
+				<Param>
+					<In>-plan ./WistronAplan/ReplacePQPlan.xml -label BurnInTest -report ./Report/Test.xml -log ./Log/Test.txt</In>
+				</Param>
+				<Param>
+					<In>C:\Wistron\</In>
+				</Param>
+				<Param>
+					<In>Winsta0\Default</In>
+				</Param>
+				<Param>
+					<In>true</In>
+				</Param>
+				<Param>
+					<In>LocalSystem</In>
+				</Param>
+			</Activity>	
+
+			<Activity handler="AutoFlow.ActivityManualTest" description="提示" timeout="-1" defer="2">
+				<Caption>提示</Caption>
+				<Message>接下来进行Cold Boot,1min后请手动开机</Message>
+			</Activity> 
+
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" description="Let system Shutdown" defer="1" maxRetryCount="15" retryInterval="3">
+				<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.exe</AssemblyFullPathName>
+				<TypeName>AutoFlow.ServiceClient</TypeName>
+				<MethodName>ProviderShutdown</MethodName>
+				<Param>
+					<In>None</In>
+				</Param>
+				<Param>
+					<In>0</In>
+				</Param>
+			</Activity>	
+		</Sequence>
+	</Flow>
+	<Flow> 
+		<Name>Flow.BurnInTest2</Name>
+		<Sequence>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>			
+
+			<Activity handler="AutoFlow.ActivityManualTest" defer="3" description="进入S3提示" terminateIfFail="true" timeout="-1">
+			<Caption>提示</Caption>
+			<Message>接下将进入s3，重复三次</Message>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" defer="3" description="Flow loop" mode="Begin">
+			<LoopCount source="RawData">3</LoopCount>
+			</Activity>
+
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" defer="2" description="goto s3 and wake up after 45s">
+				　<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.Exe</AssemblyFullPathName>
+				　<TypeName>AutoFlow.ServiceClient</TypeName>
+				　<MethodName>ProviderS3S4</MethodName>
+				 <Param>
+		　		　<In>S3</In>
+		　		 </Param>
+		　		 <Param>
+		　		　<In>45</In>
+				 </Param>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="End"/>
+			<Activity handler="AutoFlow.ActivityManualTest" defer="3" description="进入S4提示" terminateIfFail="true" timeout="-1">
+			<Caption>提示</Caption>
+			<Message>接下将进入s4，重复三次</Message>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" defer="3" description="Flow loop" mode="Begin">
+			<LoopCount source="RawData">3</LoopCount>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" defer="2" description="goto s3 and wake up after 45s">
+				　<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.Exe</AssemblyFullPathName>
+				　<TypeName>AutoFlow.ServiceClient</TypeName>
+				　<MethodName>ProviderS3S4</MethodName>
+				 <Param>
+		　		　<In>S4</In>
+		　		 </Param>
+		　		 <Param>
+		　		　<In>45</In>
+				 </Param>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="End"/>
+						<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="open BurnIntest" defer="1" maxRetryCount="20">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="AsInvoker">C:\Program Files\BurnInTest\bit.exe</FileName>
+					<WorkingDir/>
+					<CommandLine/>
+				</StartupInfo>
+			</Activity>
+		 <Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="点击Configuration" defer="10" terminateIfFail="false" maxRetryCount="10" >
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>bit</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>BurnInTest V8.1 Pro (1008)</Name>
+				</ParentWindow>			
+				<DescendantWindow>
+					<ControlType>MenuItem</ControlType>
+					<Name>Configuration</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="5" description="选中并打开下一级配置菜单" terminateIfFail="true">
+			<Text>{DOWN}~</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="Configuration" terminateIfFail="true">
+			<Text>{F3}</Text>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="恢复默认设置" defer="5" terminateIfFail="false" maxRetryCount="10" >
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>bit</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>BurnInTest V8.1 Pro (1008)</Name>
+				</ParentWindow>			
+				<DescendantWindow>
+					<ClassName>Button</ClassName>
+					<ControlType>Button</ControlType>
+					<Name>Reset Defaults</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="点击Optical Drive(s)选项，去掉该选项" defer="5" terminateIfFail="false" maxRetryCount="10" >
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>bit</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>BurnInTest V8.1 Pro (1008)</Name>
+				</ParentWindow>			
+				<DescendantWindow>
+					<ClassName>Button</ClassName>
+					<ControlType>CheckBox</ControlType>
+					<Name>Optical Drive(s)</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="设置">
+			<Text>{TAB 2}100{TAB 3}100{TAB 3}100{TAB 3}100{TAB 3}100{TAB 9}100{TAB 6}100{TAB 3}100{TAB 9}100{TAB 13}1440</Text>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="设置完成">
+			<Text>~</Text>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="点击Test菜单选项" defer="10" terminateIfFail="false" maxRetryCount="10" >
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>bit</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>BurnInTest V8.1 Pro (1008)</Name>
+				</ParentWindow>			
+				<DescendantWindow>
+					<ControlType>MenuItem</ControlType>
+					<Name>Test</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="点击Start test run" terminateIfFail="true">
+			<Text>{DOWN}~</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="Start test run" terminateIfFail="true">
+			<Text>{F4}</Text>
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="开始测试">
+			<Text>~</Text>
+		</Activity>		
+		</Sequence>	
+	</Flow>
+</FlowList>

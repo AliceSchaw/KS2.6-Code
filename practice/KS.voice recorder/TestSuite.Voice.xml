@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestSuiteList>
+	<TestSuite>
+		<OS>Win10</OS>
+		<Launguage>EN</Launguage>
+		<Version>V0.1</Version>
+		<Provider>Alice H Xiao</Provider>
+		<Date>20160922</Date>
+		<Name>TestSuite.Voice</Name>
+		<TestCase>
+			<Name>Flow.Voice</Name>
+		</TestCase>
+	</TestSuite>	
+</TestSuiteList>

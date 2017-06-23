@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<PlanSuiteList>
+
+	<TestSuite>
+		<Name>TestSuite.HighPrivilege</Name>
+	</TestSuite>
+	<TestSuite label="LongRun">
+		<Name>TestSuite.LR</Name>
+	</TestSuite>
+	<TestSuite>
+		<Name>TestSuite.Environment-Install-Reboot</Name>
+	</TestSuite>
+	<TestSuite label="reboot">
+		<Name>TestSuite.LOM_Offline_Files</Name>
+	</TestSuite>
+		<TestSuite label="shutdown">
+		<Name>TestSuite.LOM_Offline_Files_Shutdown</Name>
+	</TestSuite>
+
+</PlanSuiteList>

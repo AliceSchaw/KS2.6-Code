@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+<TestSuiteList>
+<OS>Win10 x86/X64</OS>
+<Language>EN</Language>
+<Version>v0.1</Version>
+<Provider>Channing_Wang</Provider>
+<Date>20150512</Date>
+
+<TestSuite>
+		<Name>TestSuite.HighPrivilege</Name>
+		<TestCase loopCount="1" terminateIfFail="false">
+			<Name>Flow.HighPrivilege</Name>
+		</TestCase>  
+	</TestSuite>
+<TestSuite label="LongRun">
+		<Name>TestSuite.LR</Name>
+		<TestCase loopCount="1" terminateIfFail="false">
+			<Name>Flowlist.LR</Name>
+		</TestCase>  
+	</TestSuite>
+
+
+	<TestSuite>  
+	  	<Name>TestSuite.Graphics DisplayPort Functional Test_Shutdown</Name>
+			<TestCase loopCount="1" terminateIfFail="true">
+				<Name>Flow.Graphics DisplayPort Functional Test_Shutdown</Name>        
+			</TestCase>	
+	</TestSuite>
+ 	<TestSuite label="shutdown">  
+	  	<Name>TestSuite.Graphics DisplayPort Functional Test_Benchmark</Name>
+			<TestCase loopCount="1" terminateIfFail="true">
+				<Name>Flow.Graphics DisplayPort Functional Test_Benchmark</Name>        
+			</TestCase>	
+	</TestSuite>
+	 <TestSuite label="shutdown2">  
+	  	<Name>TestSuite.Graphics DisplayPort Functional Test_Shutdown2</Name>
+			<TestCase loopCount="1" terminateIfFail="true">
+				<Name>Flow.Graphics DisplayPort Functional Test_Shutdown2</Name>        
+			</TestCase>	
+	</TestSuite>
+	 <TestSuite label="reboot">  
+	  	<Name>TestSuite.Graphics DisplayPort Functional Test_Reboot</Name>
+			<TestCase loopCount="1" terminateIfFail="true">
+				<Name>Flow.Graphics DisplayPort Functional Test_Reboot</Name>        
+			</TestCase>	
+	</TestSuite>
+
+	
+</TestSuiteList>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

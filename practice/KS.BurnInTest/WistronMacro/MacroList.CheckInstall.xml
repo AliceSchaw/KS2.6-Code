@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MacroList>
+		<OS>Win10</OS>
+		<Launguage>EN</Launguage>
+		<Version>V0.1</Version>
+		<Provider>Alice H Xiao</Provider>
+		<Date>20161107</Date>
+<Macro name="CheckBurnInTest">		
+<Activity handler="AutoFlow.Verifier.ActivityCheckInstalledApp" description="Pre_install.check if BurnInTest v8.1 Pro was installed." label="TestApp_install">
+				<PersistFileName>C:\Wistron\DataSource\InstalledAppList.txt</PersistFileName>
+				<Criteria>
+					<IncludeApplication>
+						<DisplayName>BurnInTest v8.1 Pro</DisplayName >
+						<DisplayVersion>8.1.1008.0</DisplayVersion>
+						<Publisher>Passmark Software</Publisher>
+					</IncludeApplication>
+				</Criteria>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="Pre_install.Activity If label" defer="1" terminateIfFail="false">
+				<Condition previousActivityResult="Success">BurnInTest_install</Condition>      
+				<Condition previousActivityResult="Fail">BurnInTest_Uninstall</Condition>       
+			</Activity>
+
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="BurnInTest_Uninstall" defer="1" description="Pre_install.Install BurnInTest v8.1 Pro">
+				<Text></Text>
+			</Activity>			
+			<Activity handler="AutoFlow.ActivityManualTest" description="复制安装文件" terminateIfFail="False" timeout="-1" defer="1">
+			<Caption>开始安装BurnInTest</Caption>
+			<Message>步骤：
+确认已经复制并解压burnin test tools至路径C:\Wistron\DataSource\Tool\Passmarkv8,1
+
+说明：
+可执行文件exe放在Burnintest下，否则会导致自动安装失败。本次软件列表：
+Passmarkv8,1\8.1.1008\8.1.1008\bitpro8.1build1008.exe
+
+			</Message>
+			</Activity>	
+			
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入安装程序" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Wistron\DataSource\Tool\Passmarkv8,1\8.1.1008\8.1.1008\bitpro8.1build1008.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="accept agreement">
+						<Text>~</Text>
+			</Activity>	
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="accept agreement">
+						<Text>{TAB}{UP}</Text>
+			</Activity>	
+			 <Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Install Passmark">
+						<Text>{Enter}{Enter}{Enter}{Enter}</Text>
+			</Activity> 			 
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="20" description="去掉勾选，不启动自述文本" terminateIfFail="true">
+			<Key action="DownUp">SPACE</Key>
+			</Activity>
+			 <Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Finish Install Passmark">
+						<Text>{Enter}</Text>
+			</Activity> 				 
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="25" description="点击密匙输入框">
+				<Text>{TAB 3}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="输入密匙">
+				<Text>BurnInTest Professional V8 License Key
+-----START_OF_KEY-----
+Larissa Bendel
+#ANEAAKIBRHKAYCZ999WU2UMW6IAF5CEF47AZTD3V
+8B7U93UWWH2DFM7AGU3DVKEU9QPWAJ4QIVKQBMG5
+YC4G55MSGFZFHXPWIHSSA4N93DB9RNAATEVZDP5D
+------END_OF_KEY------</Text>
+			</Activity>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="Finish Install Passmark">
+						<Text>{TAB}{Enter 2}</Text>
+			</Activity> 
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="5" description="close Passmark">
+						<Text>%{F4}</Text>
+			</Activity> 
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="BurnInTest_install" defer="1" description="Pre_install.Install BurnInTest v8.0 Pro">
+				<Text>{UP}{DOWN}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="open BurnIntest" defer="1" maxRetryCount="20">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="AsInvoker">C:\Program Files\BurnInTest\bit.exe</FileName>
+					<WorkingDir/>
+					<CommandLine/>
+				</StartupInfo>
+			</Activity>	
+	</Macro>
+<Macro name="CheckNotepad++">		
+<Activity handler="AutoFlow.Verifier.ActivityCheckInstalledApp" description="Pre_install.check if Notepad++ was installed." label="TestApp2_install">
+				<PersistFileName>C:\Wistron\DataSource\InstalledAppList.txt</PersistFileName>
+				<Criteria>
+					<IncludeApplication>
+						<DisplayName>Notepad++</DisplayName >
+						<DisplayVersion>6.8.6</DisplayVersion>
+						<Publisher>Notepad++ Team</Publisher>
+					</IncludeApplication>
+				</Criteria>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="Pre_install.Activity If label" defer="1" terminateIfFail="false">
+				<Condition previousActivityResult="Success">Notepad_install</Condition>      
+				<Condition previousActivityResult="Fail">Notepad_Uninstall</Condition>       
+			</Activity>
+
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Notepad_Uninstall" defer="1" description="Pre_install.Install Notepad++">
+				<Text></Text>
+			</Activity>			
+			<Activity handler="AutoFlow.ActivityManualTest" description="复制安装文件" terminateIfFail="False" timeout="-1" defer="1">
+			<Caption>开始安装Notepad++</Caption>
+			<Message>步骤：
+确认已经复制并解压Notepad++安装文件至路径C:\Wistron\DataSource\Tool\Notepad++
+
+说明：
+可执行文件exe放在Notepad++下，否则会导致自动安装失败。本次软件列表：
+Notepad++\Notepad.exe
+
+			</Message>
+			</Activity>	
+			
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入安装程序" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Wistron\DataSource\Tool\Notepad++\Notepad.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="click English">
+						<Text>~</Text>
+			</Activity>	
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="click Next">
+						<Text>~</Text>
+			</Activity>	
+			 <Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="click I agree">
+						<Text>~</Text>
+			</Activity> 			 
+			 <Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Install Notepad">
+						<Text>{Enter 3}</Text>
+			</Activity> 
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="10" description="去掉勾选，自动进入" terminateIfFail="true">
+			<Key action="DownUp">SPACE</Key>
+			</Activity>
+			 <Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Finish Install Passmark">
+						<Text>{Enter}</Text>
+			</Activity> 				 
+	
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="Notepad_install" defer="1" description="Pre_install.Install Notepad++">
+				<Text>{UP}{DOWN}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="open Notepad" defer="1" maxRetryCount="20">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="AsInvoker">C:\Program Files (x86)\Notepad++\Notepad++.exe</FileName>
+					<WorkingDir/>
+					<CommandLine/>
+				</StartupInfo>
+			</Activity>	
+	</Macro>
+</MacroList>

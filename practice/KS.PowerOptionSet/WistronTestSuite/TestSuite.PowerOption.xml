@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestSuiteList>
+	<TestSuite label="reboot">
+		<OS>Win10</OS>
+		<Launguage>EN</Launguage>
+		<Version>V0.1</Version>
+		<Provider>Alice H Xiao</Provider>
+		<Date>20160929</Date>
+		<Name>TestSuite.PowerOption</Name>
+		<TestCase>
+			<Name>Flow.PowerOption</Name>
+		</TestCase>
+	</TestSuite>	
+</TestSuiteList>

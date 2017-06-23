@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FlowList>
+	<Flow>
+		<OS>Win10</OS>
+		<Launguage>EN</Launguage>
+		<Version>V0.1</Version>
+		<Provider>Alice H Xiao</Provider>
+		<Date>20160929</Date>
+		<Name>Flow.BurnInTest</Name>
+		<Sequence>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>			
+			<Activity handler="AutoFlow.ActivityManualTest" defer="3" description="进入S3提示" terminateIfFail="true" timeout="-1">
+			<Caption>提示</Caption>
+			<Message>接下将进入s3，重复三次</Message>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" defer="3" description="Flow loop" mode="Begin">
+			<LoopCount source="RawData">3</LoopCount>
+			</Activity>
+
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" defer="2" description="goto s3 and wake up after 45s">
+				　<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.Exe</AssemblyFullPathName>
+				　<TypeName>AutoFlow.ServiceClient</TypeName>
+				　<MethodName>ProviderS3S4</MethodName>
+				 <Param>
+		　		　<In>S3</In>
+		　		 </Param>
+		　		 <Param>
+		　		　<In>45</In>
+				 </Param>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="End"/>
+			<Activity handler="AutoFlow.ActivityManualTest" defer="3" description="进入S4提示" terminateIfFail="true" timeout="-1">
+			<Caption>提示</Caption>
+			<Message>接下将进入s4，重复三次</Message>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" defer="3" description="Flow loop" mode="Begin">
+			<LoopCount source="RawData">3</LoopCount>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityInvoker" defer="2" description="goto s3 and wake up after 45s">
+				　<AssemblyFullPathName>C:\Wistron\Service\ServiceClient.Exe</AssemblyFullPathName>
+				　<TypeName>AutoFlow.ServiceClient</TypeName>
+				　<MethodName>ProviderS3S4</MethodName>
+				 <Param>
+		　		　<In>S4</In>
+		　		 </Param>
+		　		 <Param>
+		　		　<In>45</In>
+				 </Param>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityLoop" description="Flow loop" mode="End"/>
+			<Activity handler="AutoFlow.Verifier.ActivityCheckInstalledApp" description="Pre_install.check if BurnInTest v8.1 Pro was installed." label="TestApp_install">
+				<PersistFileName>C:\Wistron\DataSource\InstalledAppList.txt</PersistFileName>
+				<Criteria>
+					<IncludeApplication>
+						<DisplayName>BurnInTest v8.1 Pro</DisplayName >
+						<DisplayVersion>8.1.1008.0</DisplayVersion>
+						<Publisher>Passmark Software</Publisher>
+					</IncludeApplication>
+				</Criteria>
+			</Activity>
+			<Activity handler="AutoFlow.FlowControl.ActivityIf" description="Pre_install.Activity If label" defer="1" terminateIfFail="false">
+				<Condition previousActivityResult="Success">BurnInTest_install</Condition>      
+				<Condition previousActivityResult="Fail">BurnInTest_Uninstall</Condition>       
+			</Activity>
+
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="BurnInTest_Uninstall" defer="1" description="Pre_install.Install BurnInTest v8.1 Pro">
+				<Text></Text>
+			</Activity>			
+			<Activity handler="AutoFlow.ActivityManualTest" description="复制安装文件" terminateIfFail="False" timeout="-1" defer="1">
+			<Caption>开始安装BurnInTest</Caption>
+			<Message>步骤：
+确认已经复制并解压burnin test tools至路径C:\Wistron\DataSource\Tool\Passmarkv8,1
+
+说明：
+可执行文件exe放在Burnintest下，否则会导致自动安装失败。本次软件列表：
+Passmarkv8,1\8.1.1008\8.1.1008\bitpro8.1build1008.exe
+
+			</Message>
+			</Activity>	
+			
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入安装程序" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Wistron\DataSource\Tool\Passmarkv8,1\8.1.1008\8.1.1008\bitpro8.1build1008.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="accept agreement">
+						<Text>~</Text>
+			</Activity>	
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="accept agreement">
+						<Text>{TAB}{UP}</Text>
+			</Activity>	
+			 <Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Install Passmark">
+						<Text>{Enter}{Enter}{Enter}{Enter}</Text>
+			</Activity> 			 
+
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="20" description="去掉勾选，不启动自述文本" terminateIfFail="true">
+			<Key action="DownUp">SPACE</Key>
+			</Activity>
+			 <Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="1" description="Finish Install Passmark">
+						<Text>{Enter}</Text>
+			</Activity> 				 
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="25" description="点击密匙输入框">
+			<Text>{TAB 3}</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="输入密匙">
+			<Text>BurnInTest Professional V8 License Key
+-----START_OF_KEY-----
+Larissa Bendel
+#ANEAAKIBRHKAYCZ999WU2UMW6IAF5CEF47AZTD3V
+8B7U93UWWH2DFM7AGU3DVKEU9QPWAJ4QIVKQBMG5
+YC4G55MSGFZFHXPWIHSSA4N93DB9RNAATEVZDP5D
+------END_OF_KEY------</Text>
+		</Activity>	
+		 <Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="2" description="Finish Install Passmark">
+						<Text>{TAB}{Enter 2}</Text>
+		</Activity> 
+		 <Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="5" description="Finish Install Passmark">
+						<Text>%{F4}</Text>
+		</Activity> 
+			<Activity handler="AutoFlow.InputDevice.ActivityTyping" label="BurnInTest_install" defer="1" description="Pre_install.Install BurnInTest v8.0 Pro">
+				<Text>{UP}{DOWN}</Text>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" description="open BurnIntest" defer="1" maxRetryCount="20">
+				<StartupInfo>
+					<FileName executionMode="Async" executionLevel="AsInvoker">C:\Program Files\BurnInTest\bit.exe</FileName>
+					<WorkingDir/>
+					<CommandLine/>
+				</StartupInfo>
+			</Activity>
+		 <Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="点击Configuration" defer="10" terminateIfFail="false" maxRetryCount="10" >
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>bit</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>BurnInTest V8.1 Pro (1008)</Name>
+				</ParentWindow>			
+				<DescendantWindow>
+					<ControlType>MenuItem</ControlType>
+					<Name>Configuration</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="5" description="选中并打开下一级配置菜单" terminateIfFail="true">
+			<Text>{DOWN}~</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="恢复默认设置" defer="5" terminateIfFail="false" maxRetryCount="10" >
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>bit</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>BurnInTest V8.1 Pro (1008)</Name>
+				</ParentWindow>			
+				<DescendantWindow>
+					<ClassName>Button</ClassName>
+					<ControlType>Button</ControlType>
+					<Name>Reset Defaults</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="点击Optical Drive(s)选项，去掉该选项" defer="5" terminateIfFail="false" maxRetryCount="10" >
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>bit</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>BurnInTest V8.1 Pro (1008)</Name>
+				</ParentWindow>			
+				<DescendantWindow>
+					<ClassName>Button</ClassName>
+					<ControlType>CheckBox</ControlType>
+					<Name>Optical Drive(s)</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>		
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="设置">
+			<Text>{TAB 2}100{TAB 3}100{TAB 3}100{TAB 3}100{TAB 3}100{TAB 9}100{TAB 6}100{TAB 3}100{TAB 9}100{TAB 13}1440</Text>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="设置完成">
+			<Text>~</Text>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="点击Test菜单选项" defer="10" terminateIfFail="false" maxRetryCount="10" >
+			<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+			<WindowSpecification>
+				<ParentWindow>
+					<ClassName>bit</ClassName>
+					<ControlType>Window</ControlType>
+					<Name>BurnInTest V8.1 Pro (1008)</Name>
+				</ParentWindow>			
+				<DescendantWindow>
+					<ControlType>MenuItem</ControlType>
+					<Name>Test</Name>
+				</DescendantWindow>
+			</WindowSpecification>
+		</Activity>	
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="点击Start test run" terminateIfFail="true">
+			<Text>{DOWN}~</Text>
+		</Activity>
+		<Activity handler="AutoFlow.InputDevice.ActivityTyping" defer="3" description="开始测试">
+			<Text>~</Text>
+		</Activity>				
+		</Sequence>
+	</Flow>
+</FlowList>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FlowList>
+	<Flow>
+		<OS>Win10</OS>
+		<Launguage>EN</Launguage>
+		<Version>V0.1</Version>
+		<Provider>Alice H Xiao</Provider>
+		<Date>20161124</Date>
+		<Name>Flow.PowerOption</Name>
+		<Sequence>	
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>			
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Down">LWIN</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="DownUp" downUpInterval="0.1" count="1" typeInterval="2">M</Key>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityTypeVirtualKey" defer="1" description="WIN+M" terminateIfFail="true">
+				<Key action="Up">LWIN</Key>
+			</Activity>			
+			<Activity handler="AutoFlow.ShellScript.ActivityPowerShell" description="Get OSLanguae">
+					<Script option="CodeSnippet">
+						 $c = get-uiculture
+						 $c.Name
+					</Script>
+					<Ouput target="Dictionary">OSLanguage</Ouput>
+			</Activity>
+			<Activity handler="AutoFlow.Launcher.ActivityProgramLauncher" defer="2" description="进入ControlPanel" timeout="-1" terminateIfFail="true" maxRetryCount="10" >
+			<StartupInfo>
+				<FileName executionMode="Async" executionLevel="AsInvoker">C:\Windows\system32\control.exe</FileName>
+				<WorkingDir></WorkingDir>
+				<CommandLine></CommandLine>
+			</StartupInfo>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="System and Security" defer="1" terminateIfFail="true" maxRetryCount="10" >
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>Control Panel</Name>
+					</ParentWindow>			
+					<DescendantWindow>
+						<ControlType>Hyperlink</ControlType>
+						<Name>System and Security</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" description="Change what the power buttons do" defer="1" terminateIfFail="true" maxRetryCount="10" >
+				<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" autoMirror="false" clickCount="1"/>
+				<WindowSpecification>
+					<ParentWindow>
+						<ClassName>CabinetWClass</ClassName>
+						<ControlType>Window</ControlType>
+						<Name>System and Security</Name>
+					</ParentWindow>			
+					<DescendantWindow>
+						<ControlType>Hyperlink</ControlType>
+						<Name source="XmlFile">C:\Wistron\DataSource\LangChan.xml | //LangChan/Source/Result/GotoPowerOptions[@lang="$ez[OSLanguage]"]</Name>
+					</DescendantWindow>
+				</WindowSpecification>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityVariable" description="Read self mode switch.">
+			  <Variable key="SelfModeE77E3D6D-6470-461F-9E6B-B3B5E9CF8CA0" isOverWrite="true" source="RawData">On</Variable>
+			</Activity>
+			<Activity handler="AutoFlow.ActivityManualTest" description="PowerOption open" timeout="-1">
+					<Caption>ManualTest</Caption>
+					<Message>PowerOptions opened</Message>
+					<Timeout>30</Timeout>
+			</Activity>
+				<Activity handler="AutoFlow.InputDevice.ActivityMouseClick" defer="3" description="Close PowerOptions Windows" maxRetryCount="10" terminateIfFail="false" retryInterval="1">
+					<Click buttonAction="DownUp" clickMechanism="MouseEvent" clickButton="Left" clickCount="1"/>
+					<WindowSpecification>
+						<ParentWindow>
+							<ClassName>CabinetWClass</ClassName>
+							<ControlType>Window</ControlType>
+						</ParentWindow>
+						<DescendantWindow>
+							<ControlType>Button</ControlType>
+							<Name>Close</Name>
+						</DescendantWindow>
+					</WindowSpecification>
+			</Activity>	
+		</Sequence>
+	</Flow>
+</FlowList>

@@ -1,0 +1,13 @@
+<AutoFlowGen>
+	<LangChan>
+		<Source>
+			<Result>
+			
+			<!--Performance.BasicEnvironmentPrepare-->
+			<GotoPowerOptions lang="en-US">Power Options</GotoPowerOptions>
+			<GotoPowerOptions lang="zh-CN">电源选项</GotoPowerOptions>
+	       
+			</Result>
+		</Source>
+	</LangChan>
+</AutoFlowGen>

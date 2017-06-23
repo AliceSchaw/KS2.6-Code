@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlanSuiteList>
+	<OS>Win10</OS>
+	<Launguage>EN</Launguage>
+	<Version>V0.1</Version>
+	<Provider>Alice H Xiao</Provider>
+	<Date>20161115</Date>
+	<TestSuite label="reboot">
+		<Name>TestSuite.1138869.1</Name>
+	</TestSuite>
+
+</PlanSuiteList>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<TestSuiteList>
+	<TestSuite>
+		<Name>TestSuite.HighPrivilege</Name>
+		<TestCase loopCount="1" terminateIfFail="false">
+			<Name>Flow.HighPrivilege</Name>
+		</TestCase>  
+	</TestSuite>
+	<TestSuite label="LongRun">
+		<Name>TestSuite.LR</Name>
+		<TestCase loopCount="1" terminateIfFail="false">
+			<Name>Flowlist.LR</Name>
+		</TestCase>  
+	</TestSuite>
+	<TestSuite>
+		<Name>TestSuite.test</Name>	
+		<TestCase>
+			<Name>Flow.test</Name>
+		</TestCase>
+	</TestSuite>
+</TestSuiteList>		
